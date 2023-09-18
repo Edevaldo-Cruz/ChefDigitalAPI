@@ -14,7 +14,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ChefDigital.Domain\ChefDigital.Domain.csproj" />
 		<ProjectReference Include="..\ChefDigital.Entities\ChefDigital.Entities.csproj" />
-		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
