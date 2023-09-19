@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ChefDigital.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace ChefDigital.Infra.Configuration
 {
@@ -26,6 +27,10 @@ namespace ChefDigital.Infra.Configuration
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            builder.Entity<Order>().ToTable("Orders").HasKey(t => t.Id);
+            builder.Entity<Client>().ToTable("Client").HasKey(t => t.Id);
+            builder.Entity<HistoryRequest>().ToTable("HistoryRequest").HasKey(t => t.Id);            
+            builder.Entity<OrderedItem>().ToTable("OrderedItem").HasKey(t => t.Id);
 
             base.OnModelCreating(builder);
         }
