@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ChefDigital.API.Token;
+using ChefDigital.Domain.Interfaces;
+using ChefDigital.Domain.Service.Client;
+using ChefDigital.Infra.Repository.Repositories;
+using ChefDigitalAPI.Application.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +31,15 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 //builder.Services.AddSingleton<IMessage, RepositoryMessage>();
+
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IClientAppService, ClientAppService>();
+
+
 
 // SERVIÇO DOMINIO
 //builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();

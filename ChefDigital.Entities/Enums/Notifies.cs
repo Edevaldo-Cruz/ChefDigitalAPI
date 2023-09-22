@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ChefDigital.Entities.Enums
@@ -15,10 +16,13 @@ namespace ChefDigital.Entities.Enums
         }
 
         [NotMapped]
+        [JsonIgnore]
         public string NomePropriedade { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public string Mensagem { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public List<Notifies> Notitycoes { get; set; }
 
 

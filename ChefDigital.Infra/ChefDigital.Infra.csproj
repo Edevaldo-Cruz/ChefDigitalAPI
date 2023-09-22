@@ -16,8 +16,4 @@
 		<ProjectReference Include="..\ChefDigital.Entities\ChefDigital.Entities.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Repository\Repositories\" />
-	</ItemGroup>
-
 </Project>

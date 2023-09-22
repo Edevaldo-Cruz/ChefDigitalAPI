@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChefDigital.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Entities.Entities.Generics
 {
-    public class EntityBase
+    public class EntityBase /*: Notifies*/
     {
         protected EntityBase() 
         {
@@ -16,6 +17,6 @@ namespace ChefDigital.Entities.Entities.Generics
 
         public Guid Id { get; set; }
         public DateTime DataInclusao { get; set; }
-        public DateTime DataAlteracao { get; set; }
+        public DateTime? DataAlteracao { get; set; }
     }
 }

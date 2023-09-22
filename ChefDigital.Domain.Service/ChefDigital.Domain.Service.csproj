@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChefDigital.Domain\ChefDigital.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

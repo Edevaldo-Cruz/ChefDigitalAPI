@@ -1,11 +1,14 @@
 ﻿using ChefDigital.Domain.Interfaces.Generics;
+using ChefDigital.Entities.Entities.Generics;
 using ChefDigital.Infra.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32.SafeHandles;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 
 namespace ChefDigital.Infra.Repository.Generics
 {
+ 
     //Copiar o codigo IDisposable
     public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
     {
@@ -34,11 +37,11 @@ namespace ChefDigital.Infra.Repository.Generics
             }
         }
 
-        public async Task<T> GetEntityById(int Id)
+        public async Task<T> GetEntityById(Guid id)
         {
             using (var data = new ContextBase(_OptionsBuilder))
             {
-                return await data.Set<T>().FindAsync(Id);
+                return await data.Set<T>().FindAsync(id);
             }
         }
 
@@ -58,6 +61,15 @@ namespace ChefDigital.Infra.Repository.Generics
                 await data.SaveChangesAsync();
             }
         }
+
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> condition)
+        {
+            using (var data = new ContextBase(_OptionsBuilder))
+            {
+                return await data.Set<T>().AnyAsync(condition);
+            }
+        }
+
 
         #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
         // Flag: Has Dispose already been called?
