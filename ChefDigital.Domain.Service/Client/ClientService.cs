@@ -21,7 +21,7 @@ namespace ChefDigital.Domain.Service.Client
 
         public async Task<Entities.Entities.Client> Add(Entities.Entities.Client client)
         {
-            bool existingClient = await _clientRepository.ExistsAsync(c => c.Name == client.Name && c.Telephone == client.Telephone);
+            bool existingClient = await _clientRepository.ExistsAsync(c => c.FisrtName == client.FisrtName && c.Telephone == client.Telephone);
             if (existingClient)
             {
                 throw new ArgumentValidationException("O cliente já esta cadastrado.");

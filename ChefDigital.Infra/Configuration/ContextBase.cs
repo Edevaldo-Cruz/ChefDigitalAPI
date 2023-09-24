@@ -14,7 +14,6 @@ namespace ChefDigital.Infra.Configuration
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
 
-        //erro no UseSqlServer instalar pacote entities.SQL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -23,17 +22,24 @@ namespace ChefDigital.Infra.Configuration
                 base.OnConfiguring(optionsBuilder);
             }
         }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
             builder.Entity<Order>().ToTable("Orders").HasKey(t => t.Id);
             builder.Entity<Client>().ToTable("Client").HasKey(t => t.Id);
-            builder.Entity<HistoryRequest>().ToTable("HistoryRequest").HasKey(t => t.Id);            
             builder.Entity<OrderedItem>().ToTable("OrderedItem").HasKey(t => t.Id);
+
+            builder.Entity<Address>().ToTable("Address")
+                .HasKey(t => t.Id);  
+
+            builder.Entity<Client>()
+                .HasMany(c => c.Addresses)  
+                .WithOne(a => a.Client)  
+                .HasForeignKey(a => a.ClientId);  
 
             base.OnModelCreating(builder);
         }
+
 
         public string ObterStringConexao()
         {

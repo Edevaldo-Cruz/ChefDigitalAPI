@@ -55,10 +55,12 @@ namespace ChefDigital.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FisrtName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Telephone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -172,22 +174,26 @@ namespace ChefDigital.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HistoryRequest",
+                name: "Address",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ValueTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Neighborhood = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    State = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HistoryRequest", x => x.Id);
+                    table.PrimaryKey("PK_Address", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HistoryRequest_Client_ClientId",
+                        name: "FK_Address_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
@@ -201,7 +207,7 @@ namespace ChefDigital.Infra.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -220,11 +226,11 @@ namespace ChefDigital.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Item = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Item = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UnitValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ItemQuantity = table.Column<int>(type: "int", nullable: false),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -236,6 +242,11 @@ namespace ChefDigital.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_ClientId",
+                table: "Address",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -277,11 +288,6 @@ namespace ChefDigital.Infra.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoryRequest_ClientId",
-                table: "HistoryRequest",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderedItem_OrderId",
                 table: "OrderedItem",
                 column: "OrderId");
@@ -294,6 +300,9 @@ namespace ChefDigital.Infra.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Address");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -308,9 +317,6 @@ namespace ChefDigital.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "HistoryRequest");
 
             migrationBuilder.DropTable(
                 name: "OrderedItem");

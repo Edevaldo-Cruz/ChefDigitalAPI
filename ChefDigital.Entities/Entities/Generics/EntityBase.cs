@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Entities.Entities.Generics
 {
-    public class EntityBase /*: Notifies*/
+    public class EntityBase 
     {
         protected EntityBase() 
         {

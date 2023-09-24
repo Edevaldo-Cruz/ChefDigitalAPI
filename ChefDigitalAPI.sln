@@ -5,13 +5,13 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - API", "0 - API", "{0ACFFD44-76F6-41F0-9950-4FAB0BB01A93}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{9F5A388C-B3DC-4B13-9931-E8F45E9A1C33}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{9F5A388C-B3DC-4B13-9931-E8F45E9A1C33}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{AB6F6CA9-CB83-411F-8AE3-41255872DB1D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{AB6F6CA9-CB83-411F-8AE3-41255872DB1D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{F9E912C4-0635-4CE3-AC3C-D43B3D1AE7AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Entities", "3 - Entities", "{F9E912C4-0635-4CE3-AC3C-D43B3D1AE7AB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{611E8D5C-D3F2-4D04-B082-E3B0BF5DC4ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Test", "5 - Test", "{611E8D5C-D3F2-4D04-B082-E3B0BF5DC4ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigital.Domain", "ChefDigital.Domain\ChefDigital.Domain.csproj", "{6032DFF3-7173-444B-AEB1-50DC3E34E448}"
 EndProject
@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigital.Teste.DomainSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigital.API", "API\ChefDigital.API.csproj", "{BBE32BFB-9645-4C44-9CE6-84D9560F9CBE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Application", "1-Application", "{C071C741-95CC-498C-9F97-6C52082A6818}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Application", "1 - Application", "{C071C741-95CC-498C-9F97-6C52082A6818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefDigitalAPI.Application", "ChefDigitalAPI.Application\ChefDigitalAPI.Application.csproj", "{9BB48679-EEA3-45F7-8D30-63CBEBDEA628}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigitalAPI.Application", "ChefDigitalAPI.Application\ChefDigitalAPI.Application.csproj", "{9BB48679-EEA3-45F7-8D30-63CBEBDEA628}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
