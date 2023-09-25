@@ -22,6 +22,8 @@ namespace ChefDigital.Domain.Service.Client
             clientBank = await _clientRepository.GetEntityById(id);
 
             clientBank.Active = false;
+            clientBank.DataAlteracao = DateTime.Now;
+            await _clientRepository.Update(clientBank);
 
             return clientBank;
         }

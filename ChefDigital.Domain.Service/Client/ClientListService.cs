@@ -18,7 +18,7 @@ namespace ChefDigital.Domain.Service.Client
 
         public async Task<List<Entities.Entities.Client>> List()
         {
-            return await _clientRepository.ClientListFilter(c => c.Active == false);
+            return await _clientRepository.ClientListFilter(c => c.Active == true);
         }
     }
 }
