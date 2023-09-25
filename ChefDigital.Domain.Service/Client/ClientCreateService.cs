@@ -26,16 +26,21 @@ namespace ChefDigital.Domain.Service.Client
 
             if (client != null)
             {
-                client.Id = Guid.NewGuid();
-                client.DataInclusao = DateTime.Now;
-                client.DataAlteracao = DateTime.MinValue;
-                client.Active = true;
+
+                /*
+                * CRIAR ENDEREÇO DO CLIENTE  
+                * RECUPERAR CLIENTID PARA SALVA NO ENDEREÇO
+                * DESCOMENTAR CODIGO NO CONTEXTBASE
+                */
+
                 await _clientRepository.Add(client);
             }
             else
             {
                 throw new ArgumentValidationException("Preencha as informações do cliente.");
             }
+
+            
 
             return client;
         }

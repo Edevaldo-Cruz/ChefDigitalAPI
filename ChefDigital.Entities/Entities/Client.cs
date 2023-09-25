@@ -10,16 +10,10 @@ namespace ChefDigital.Entities.Entities
 {
     public class Client : EntityBase
     {
-        public Client(string fisrtName, string surname, string telephone)
-        {
-            FisrtName = fisrtName;
-            Surname = surname;
-            Telephone = telephone;
-            Active = true;
-        }
 
         public Client()
         {
+            SetDataAlteracao(DateTime.MinValue);
             Active = true;
         }
 
@@ -36,7 +30,12 @@ namespace ChefDigital.Entities.Entities
         public string Telephone { get; set; }
 
         [Required(ErrorMessage = "Active é obrigatório")]
-        public bool Active { get; set; }
+        public bool Active { get; private set; }
+
+        public void SetActiveFalse()
+        {
+            Active = false;
+        }
 
         //public List<Address> Addresses { get; set; }
     }

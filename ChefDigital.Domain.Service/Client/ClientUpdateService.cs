@@ -33,10 +33,8 @@ namespace ChefDigital.Domain.Service.Client
                 throw new ArgumentValidationException($"Cliente com o ID {id} não encontrado.");
             }
 
-            client.Id = bankClient.Id;
-            client.DataInclusao = bankClient.DataInclusao;
-            client.DataAlteracao = DateTime.Now;
-            client.Active = client.Active;
+            client.SetDataAlteracao(DateTime.Now);
+            client.SetActiveFalse();
             await _clientRepository.Update(client);
             return client;
         }

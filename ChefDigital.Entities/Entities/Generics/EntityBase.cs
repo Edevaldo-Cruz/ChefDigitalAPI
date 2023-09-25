@@ -15,8 +15,13 @@ namespace ChefDigital.Entities.Entities.Generics
             DataInclusao = DateTime.Now;
         }
 
-        public Guid Id { get; set; }
-        public DateTime DataInclusao { get; set; }
-        public DateTime? DataAlteracao { get; set; }
+        public Guid Id { get; private set; }
+        public DateTime DataInclusao { get; private set; }
+        public DateTime? DataAlteracao { get; private set; }
+
+        public void SetDataAlteracao (DateTime? dataAlteracao)
+        {
+            DataAlteracao = dataAlteracao;
+        }
     }
 }
