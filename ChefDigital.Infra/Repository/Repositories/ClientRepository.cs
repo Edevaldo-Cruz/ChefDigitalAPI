@@ -18,7 +18,6 @@ namespace ChefDigital.Infra.Repository.Repositories
 
         public async Task<List<Client>> ClientListFilter(Expression<Func<Client, bool>> exClient)
         {
-            var teste = _optionsBuilder;
             using (var bank = new ContextBase(_optionsBuilder))
             {
                 return await bank.Set<Client>().Where(exClient).ToListAsync();

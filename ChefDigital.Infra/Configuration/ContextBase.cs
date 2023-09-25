@@ -32,10 +32,10 @@ namespace ChefDigital.Infra.Configuration
             builder.Entity<Address>().ToTable("Address")
                 .HasKey(t => t.Id);  
 
-            builder.Entity<Client>()
-                .HasMany(c => c.Addresses)  
-                .WithOne(a => a.Client)  
-                .HasForeignKey(a => a.ClientId);  
+            //builder.Entity<Client>()
+            //    .HasMany(c => c.Addresses)  
+            //    .WithOne(a => a.Client)  
+            //    .HasForeignKey(a => a.ClientId);  
 
             base.OnModelCreating(builder);
         }

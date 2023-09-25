@@ -2,7 +2,7 @@
 using ChefDigital.Domain.Interfaces;
 using ChefDigital.Entities.Entities;
 using ChefDigital.Entities.Enums;
-using ChefDigitalAPI.Application.Client;
+using ChefDigitalAPI.Application.Client.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 
@@ -12,20 +12,29 @@ namespace ChefDigital.API.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private readonly IClientAppService _clientAppService;
+        private readonly IClientCreateAppService _clientAppServiceCreate;
+        private readonly IClientUpdateAppService _clientUpdateAppService;
+        private readonly IClientListAppService _clientListAppService;
+        private readonly IClientDisableAppService _clientDisableAppService;
 
-        public ClientController(IClientAppService clientAppService)
+        public ClientController(IClientCreateAppService clientAppServiceCreate, 
+                                    IClientUpdateAppService clientUpdateAppService, 
+                                    IClientListAppService clientListAppService, 
+                                    IClientDisableAppService clientDisableAppService)
         {
-            _clientAppService = clientAppService;
+            _clientAppServiceCreate = clientAppServiceCreate;
+            _clientUpdateAppService = clientUpdateAppService;
+            _clientListAppService = clientListAppService;
+            _clientDisableAppService = clientDisableAppService;
         }
 
-        [HttpPost("/api/add")]
+        [HttpPost("/api/create")]
         public async Task<IActionResult> Create([FromBody] Client client)
         {
             try
             {
                 Client newClient = new Client();
-                newClient = await _clientAppService.Add(client);
+                newClient = await _clientAppServiceCreate.Create(client);
                 return Ok(newClient);
             }
             catch (ArgumentValidationException ex)
@@ -41,7 +50,7 @@ namespace ChefDigital.API.Controllers
             try
             {
                 Client clientUpdade = new Client();
-                clientUpdade = await _clientAppService.Update(id, client);
+                clientUpdade = await _clientUpdateAppService.Update(id, client);
                 return Ok(clientUpdade);
             }
             catch (ArgumentValidationException ex)
@@ -53,7 +62,7 @@ namespace ChefDigital.API.Controllers
         [HttpGet("")]
         public async Task<List<Client>> List()
         {
-            var clients = await _clientAppService.ListClient();
+            var clients = await _clientListAppService.List();
             return clients;
         }
 
@@ -63,7 +72,7 @@ namespace ChefDigital.API.Controllers
             try
             {
                 Client newClient = new Client();
-                newClient = await _clientAppService.Disable(id);
+                newClient = await _clientDisableAppService.Disable(id);
 
                 return Ok(newClient);
 

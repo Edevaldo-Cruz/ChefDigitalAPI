@@ -11,7 +11,6 @@ namespace ChefDigital.Entities.Entities
 {
     public class Address : EntityBase
     {
-        [Required]
         public Guid ClientId { get; set; }
 
         [Required(ErrorMessage = "Street é obrigatório")]

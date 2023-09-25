@@ -10,6 +10,19 @@ namespace ChefDigital.Entities.Entities
 {
     public class Client : EntityBase
     {
+        public Client(string fisrtName, string surname, string telephone)
+        {
+            FisrtName = fisrtName;
+            Surname = surname;
+            Telephone = telephone;
+            Active = true;
+        }
+
+        public Client()
+        {
+            Active = true;
+        }
+
         [Required(ErrorMessage = "FisrtName é obrigatório")]
         [MaxLength(100, ErrorMessage = "FisrtName deve ter no máximo 100 caracteres")]
         public string FisrtName { get; set; }
@@ -25,6 +38,6 @@ namespace ChefDigital.Entities.Entities
         [Required(ErrorMessage = "Active é obrigatório")]
         public bool Active { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        //public List<Address> Addresses { get; set; }
     }
 }

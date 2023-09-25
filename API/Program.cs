@@ -11,6 +11,7 @@ using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Service.Client;
 using ChefDigital.Infra.Repository.Repositories;
 using ChefDigitalAPI.Application.Client;
+using ChefDigitalAPI.Application.Client.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,13 +34,19 @@ builder.Services.AddRazorPages();
 
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
-//builder.Services.AddSingleton<IMessage, RepositoryMessage>();
-
-builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IClientAppService, ClientAppService>();
 
+//Application CLient
+builder.Services.AddScoped<IClientCreateAppService, ClientCreateAppService>();
+builder.Services.AddScoped<IClientUpdateAppService, ClientUpdateAppService>();
+builder.Services.AddScoped<IClientListAppService, ClientListAppService>();
+builder.Services.AddScoped<IClientDisableAppService, ClientDisableAppService>();
 
+//Domain Service Client
+builder.Services.AddScoped<IClientCreateService, ClientCreateService>();
+builder.Services.AddScoped<IClientUpdateService, ClientUpdateService>();
+builder.Services.AddScoped<IClientListService, ClientListService>();
+builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 
 // SERVIÇO DOMINIO
 //builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
