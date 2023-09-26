@@ -35,6 +35,7 @@ builder.Services.AddRazorPages();
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 //Application CLient
 builder.Services.AddScoped<IClientCreateAppService, ClientCreateAppService>();

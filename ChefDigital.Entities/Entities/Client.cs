@@ -12,7 +12,7 @@ namespace ChefDigital.Entities.Entities
     {
 
         public Client()
-        {
+        {   
             SetDataAlteracao(DateTime.MinValue);
             Active = true;
         }
@@ -30,13 +30,16 @@ namespace ChefDigital.Entities.Entities
         public string Telephone { get; set; }
 
         [Required(ErrorMessage = "Active é obrigatório")]
-        public bool Active { get; private set; }
+        public bool Active { get; set; }
+
+        public virtual List<Address> Addresses { get; set; }
 
         public void SetActiveFalse()
         {
             Active = false;
         }
 
-        //public List<Address> Addresses { get; set; }
+        
+
     }
 }

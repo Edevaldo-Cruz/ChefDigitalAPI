@@ -2,6 +2,7 @@
 using ChefDigital.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChefDigital.Infra.Configuration
 {
@@ -24,18 +25,19 @@ namespace ChefDigital.Infra.Configuration
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<IdentityUserLogin<string>>().HasKey(i => i.UserId);
             builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
             builder.Entity<Order>().ToTable("Orders").HasKey(t => t.Id);
             builder.Entity<Client>().ToTable("Client").HasKey(t => t.Id);
             builder.Entity<OrderedItem>().ToTable("OrderedItem").HasKey(t => t.Id);
 
             builder.Entity<Address>().ToTable("Address")
-                .HasKey(t => t.Id);  
+                .HasKey(t => t.Id);
 
             //builder.Entity<Client>()
-            //    .HasMany(c => c.Addresses)  
-            //    .WithOne(a => a.Client)  
-            //    .HasForeignKey(a => a.ClientId);  
+            //    .HasMany(c => c.Addresses)
+            //    .WithOne(a => a.Client)
+            //    .HasForeignKey(a => a.ClientId);
 
             base.OnModelCreating(builder);
         }

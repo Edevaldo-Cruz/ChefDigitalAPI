@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using ChefDigital.Domain.Interfaces;
-using ChefDigital.Entities.Entities;
-using ChefDigital.Entities.Enums;
+﻿using ChefDigital.Entities.Entities;
 using ChefDigitalAPI.Application.Client.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace ChefDigital.API.Controllers
 {
@@ -17,9 +13,9 @@ namespace ChefDigital.API.Controllers
         private readonly IClientListAppService _clientListAppService;
         private readonly IClientDisableAppService _clientDisableAppService;
 
-        public ClientController(IClientCreateAppService clientAppServiceCreate, 
-                                    IClientUpdateAppService clientUpdateAppService, 
-                                    IClientListAppService clientListAppService, 
+        public ClientController(IClientCreateAppService clientAppServiceCreate,
+                                    IClientUpdateAppService clientUpdateAppService,
+                                    IClientListAppService clientListAppService,
                                     IClientDisableAppService clientDisableAppService)
         {
             _clientAppServiceCreate = clientAppServiceCreate;

@@ -11,6 +11,7 @@ namespace ChefDigital.Entities.Entities
 {
     public class Address : EntityBase
     {
+        [Required]
         public Guid ClientId { get; set; }
 
         [Required(ErrorMessage = "Street é obrigatório")]
@@ -41,16 +42,9 @@ namespace ChefDigital.Entities.Entities
         [MaxLength(50, ErrorMessage = "Country deve ter no máximo 50 caracteres")]
         public string Country { get; set; }
 
-        [ForeignKey("ClientId")]
-        public Client Client { get; set; }
-
-        protected Address()
+        public Address(Guid clientId, string street, string number, string neighborhood, string city, string state, string zipCode, string country)
         {
-
-        }
-
-        public Address(string street, string number, string neighborhood, string city, string state, string zipCode, string country)
-        {
+            ClientId = clientId;
             Street = street;
             Number = number;
             Neighborhood = neighborhood;
