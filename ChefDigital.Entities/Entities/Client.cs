@@ -29,10 +29,7 @@ namespace ChefDigital.Entities.Entities
         [MaxLength(20, ErrorMessage = "Telephone deve ter no máximo 20 caracteres")]
         public string Telephone { get; set; }
 
-        [Required(ErrorMessage = "Active é obrigatório")]
-        public bool Active { get; set; }
-
-        public virtual List<Address> Addresses { get; set; }
+        //public virtual List<Address> Addresses { get; set; }
 
         public void SetActiveFalse()
         {

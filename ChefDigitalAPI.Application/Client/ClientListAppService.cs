@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.DTO;
 using ChefDigitalAPI.Application.Client.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace ChefDigitalAPI.Application.Client
             _clientListService = clientListService;
         }
 
-        public Task<List<ChefDigital.Entities.Entities.Client>> List()
+        public Task<List<ClientDTO>> List()
         { 
             var result = _clientListService.List();
             return result;

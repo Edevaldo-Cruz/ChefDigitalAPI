@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
 using ChefDigital.Infra.Configuration;
 using ChefDigital.Infra.Repository.Generics;
@@ -16,13 +17,35 @@ namespace ChefDigital.Infra.Repository.Repositories
             _optionsBuilder = optionsBuilder;
         }
 
-        public async Task<List<Client>> ClientListFilter(Expression<Func<Client, bool>> exClient)
+        public async Task<List<ClientDTO>> ClientListFilter(Expression<Func<Client, bool>> exClient)
         {
             using (var bank = new ContextBase(_optionsBuilder))
             {
-                return await bank.Set<Client>().Where(exClient).ToListAsync();
+                var clients = await bank.Set<Client>()
+                    .Where(exClient)
+                    .Select(c => new ClientDTO
+                    {
+                        Id = c.Id,
+                        FisrtName = c.FisrtName,
+                        Surname = c.Surname,
+                        Telephone = c.Telephone
+                    })
+                    .ToListAsync();
+
+                foreach (var client in clients)
+                {
+                    var addresses = await bank.Set<Address>()
+                        .Where(a => a.ClientId == client.Id)
+                        .ToListAsync();
+
+                    client.Addresses = addresses;
+                }
+
+                return clients;
             }
         }
+
+
 
         public async Task<List<Client>> ClientList()
         {

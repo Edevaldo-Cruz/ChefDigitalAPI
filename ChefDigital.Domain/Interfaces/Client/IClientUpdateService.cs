@@ -9,6 +9,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientUpdateService
     {
-        Task<Client> Update(Guid id, Client client);
+        Task<Client> Edit(Guid id, Client client);
     }
 }

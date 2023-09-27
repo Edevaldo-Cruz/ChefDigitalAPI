@@ -18,9 +18,9 @@ namespace ChefDigitalAPI.Application.Client
             _clientUpdateService = clientUpdateService;
         }
 
-        public Task<ChefDigital.Entities.Entities.Client> Update(Guid id, ChefDigital.Entities.Entities.Client client)
+        public Task<ChefDigital.Entities.Entities.Client> Edit(Guid id, ChefDigital.Entities.Entities.Client client)
         {
-            var result = _clientUpdateService.Update(id, client);
+            var result = _clientUpdateService.Edit(id, client);
             return result;
         }
     }

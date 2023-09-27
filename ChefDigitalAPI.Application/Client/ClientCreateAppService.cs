@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.DTO;
 using ChefDigitalAPI.Application.Client.Interface;
 
 namespace ChefDigitalAPI.Application.Client
@@ -12,7 +13,7 @@ namespace ChefDigitalAPI.Application.Client
             _clientCreateService = clientCreateService;
         }
 
-        public Task<ChefDigital.Entities.Entities.Client> Create(ChefDigital.Entities.Entities.Client client)
+        public Task<ClientDTO> Create(ClientDTO client)
         {
             var result = _clientCreateService.Create(client);
             return result;

@@ -12,16 +12,17 @@ namespace ChefDigital.Entities.Entities.Generics
         protected EntityBase() 
         {
             Id = Guid.NewGuid();
-            DataInclusao = DateTime.Now;
+            InclusionDate = DateTime.Now;
         }
 
-        public Guid Id { get; private set; }
-        public DateTime DataInclusao { get; private set; }
-        public DateTime? DataAlteracao { get; private set; }
+        public Guid Id { get; set; }
+        public bool Active { get; set; }
+        public DateTime InclusionDate { get; private set; }
+        public DateTime? ChangeDate { get; private set; }
 
         public void SetDataAlteracao (DateTime? dataAlteracao)
         {
-            DataAlteracao = dataAlteracao;
+            ChangeDate = dataAlteracao;
         }
     }
 }

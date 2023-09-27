@@ -23,7 +23,7 @@ namespace ChefDigital.Domain.Service.Client
 
             clientBank.SetActiveFalse();
             clientBank.SetDataAlteracao(DateTime.Now);
-            await _clientRepository.Update(clientBank);
+            await _clientRepository.Edit(clientBank);
 
             return clientBank;
         }

@@ -8,6 +8,6 @@ namespace ChefDigitalAPI.Application.Client.Interface
 {
     public interface IClientUpdateAppService
     {
-        Task<ChefDigital.Entities.Entities.Client> Update(Guid id, ChefDigital.Entities.Entities.Client client);
+        Task<ChefDigital.Entities.Entities.Client> Edit(Guid id, ChefDigital.Entities.Entities.Client client);
     }
 }

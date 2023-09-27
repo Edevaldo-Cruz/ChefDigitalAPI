@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Interfaces
 {
-    public interface IAddressRepository : IGeneric<Address> 
+    public interface IAddressRepository : IGeneric<Entities.Entities.Address> 
     {
     }
 }

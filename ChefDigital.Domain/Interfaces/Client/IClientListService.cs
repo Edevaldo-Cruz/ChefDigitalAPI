@@ -1,14 +1,9 @@
-﻿using ChefDigital.Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ChefDigital.Entities.DTO;
 
 namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientListService
     {
-        Task<List<Client>> List();
+        Task<List<ClientDTO>> List();
     }
 }

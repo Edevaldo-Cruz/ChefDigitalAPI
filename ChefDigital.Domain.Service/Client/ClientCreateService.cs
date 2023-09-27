@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
 
 namespace ChefDigital.Domain.Service.Client
@@ -14,7 +15,7 @@ namespace ChefDigital.Domain.Service.Client
             _addressRepository = addressRepository;
         }
 
-        public async Task<ChefDigital.Entities.Entities.Client> Create(ChefDigital.Entities.Entities.Client client)
+        public async Task<ClientDTO> Create(ClientDTO client)
         {
             bool existingClient = await _clientRepository.ExistsAsync(c => c.FisrtName == client.FisrtName && c.Telephone == client.Telephone);
             if (existingClient)
@@ -24,14 +25,13 @@ namespace ChefDigital.Domain.Service.Client
 
             if (client != null)
             {
-                Guid id = client.Id;
-                await _clientRepository.Add(client);
+                Entities.Entities.Client newClient = await _clientRepository.Add(client.ToClient());
 
                 if (client.Addresses != null)
                 {
                     foreach (var address in client.Addresses)
                     {
-                        var newAddress = new Address(id, address.Street, address.Number, address.Neighborhood, address.City, address.State, address.ZipCode, address.Country);
+                        var newAddress = new Entities.Entities.Address(newClient.Id, address.Street, address.Number, address.Neighborhood, address.City, address.State, address.ZipCode, address.Country);
 
                         await _addressRepository.Add(newAddress);
                     }

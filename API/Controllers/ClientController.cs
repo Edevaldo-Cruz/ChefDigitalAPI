@@ -1,4 +1,5 @@
-﻿using ChefDigital.Entities.Entities;
+﻿using ChefDigital.Entities.DTO;
+using ChefDigital.Entities.Entities;
 using ChefDigitalAPI.Application.Client.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,11 +26,11 @@ namespace ChefDigital.API.Controllers
         }
 
         [HttpPost("/api/create")]
-        public async Task<IActionResult> Create([FromBody] Client client)
+        public async Task<IActionResult> Create([FromBody] ClientDTO client)
         {
             try
             {
-                Client newClient = new Client();
+                ClientDTO newClient = new ClientDTO();
                 newClient = await _clientAppServiceCreate.Create(client);
                 return Ok(newClient);
             }
@@ -40,14 +41,14 @@ namespace ChefDigital.API.Controllers
             }
         }
 
-        [HttpPut("/api/update/{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Client client)
+        [HttpPut("/api/edit/{id}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] Client client)
         {
             try
             {
-                Client clientUpdade = new Client();
-                clientUpdade = await _clientUpdateAppService.Update(id, client);
-                return Ok(clientUpdade);
+                Client clientEdit = new Client();
+                clientEdit = await _clientUpdateAppService.Edit(id, client);
+                return Ok(clientEdit);
             }
             catch (ArgumentValidationException ex)
             {
@@ -56,7 +57,7 @@ namespace ChefDigital.API.Controllers
         }
 
         [HttpGet("")]
-        public async Task<List<Client>> List()
+        public async Task<List<ClientDTO>> List()
         {
             var clients = await _clientListAppService.List();
             return clients;

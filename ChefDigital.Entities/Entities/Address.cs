@@ -13,6 +13,8 @@ namespace ChefDigital.Entities.Entities
     {
         [Required]
         public Guid ClientId { get; set; }
+        //[ForeignKey("ClientId")]
+        //public Client Client { get; set; }
 
         [Required(ErrorMessage = "Street é obrigatório")]
         [MaxLength(100, ErrorMessage = "Street deve ter no máximo 100 caracteres")]
@@ -52,6 +54,11 @@ namespace ChefDigital.Entities.Entities
             State = state;
             ZipCode = zipCode;
             Country = country;
+        }
+
+        public Address()
+        {
+            
         }
     }
 }

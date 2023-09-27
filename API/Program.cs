@@ -12,6 +12,10 @@ using ChefDigital.Domain.Service.Client;
 using ChefDigital.Infra.Repository.Repositories;
 using ChefDigitalAPI.Application.Client;
 using ChefDigitalAPI.Application.Client.Interface;
+using ChefDigitalAPI.Application.Address.Interface;
+using ChefDigitalAPI.Application.Address;
+using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Domain.Service.Address;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,8 +53,11 @@ builder.Services.AddScoped<IClientUpdateService, ClientUpdateService>();
 builder.Services.AddScoped<IClientListService, ClientListService>();
 builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 
-// SERVIÇO DOMINIO
-//builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
+//Application Address
+builder.Services.AddScoped<IAddressEditAppService, AddressEditAppService>();
+
+//Domain Service Address
+builder.Services.AddScoped<IAddressEditService, AddressEditService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

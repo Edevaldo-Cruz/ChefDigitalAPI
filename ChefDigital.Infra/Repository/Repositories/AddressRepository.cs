@@ -14,5 +14,7 @@ namespace ChefDigital.Infra.Repository.Repositories
         {
             _optionsBuilder = optionsBuilder;
         }
+
+
     }
 }

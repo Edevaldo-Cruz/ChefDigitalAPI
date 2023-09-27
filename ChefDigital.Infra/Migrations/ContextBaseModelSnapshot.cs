@@ -28,6 +28,12 @@ namespace ChefDigital.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ChangeDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -41,10 +47,7 @@ namespace ChefDigital.Infra.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInclusao")
+                    b.Property<DateTime>("InclusionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Neighborhood")
@@ -73,8 +76,6 @@ namespace ChefDigital.Infra.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Address", (string)null);
                 });
@@ -160,16 +161,16 @@ namespace ChefDigital.Infra.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInclusao")
+                    b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FisrtName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("InclusionDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -192,13 +193,16 @@ namespace ChefDigital.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ChangeDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInclusao")
+                    b.Property<DateTime>("InclusionDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -214,10 +218,13 @@ namespace ChefDigital.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataInclusao")
+                    b.Property<DateTime>("InclusionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Item")
@@ -378,17 +385,6 @@ namespace ChefDigital.Infra.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ChefDigital.Entities.Entities.Address", b =>
-                {
-                    b.HasOne("ChefDigital.Entities.Entities.Client", "Client")
-                        .WithMany("Addresses")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
             modelBuilder.Entity("ChefDigital.Entities.Entities.Order", b =>
                 {
                     b.HasOne("ChefDigital.Entities.Entities.Client", "Client")
@@ -460,11 +456,6 @@ namespace ChefDigital.Infra.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ChefDigital.Entities.Entities.Client", b =>
-                {
-                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("ChefDigital.Entities.Entities.Order", b =>

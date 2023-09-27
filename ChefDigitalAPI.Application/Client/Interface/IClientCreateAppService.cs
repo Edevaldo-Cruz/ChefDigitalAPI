@@ -1,7 +1,9 @@
-﻿namespace ChefDigitalAPI.Application.Client.Interface
+﻿using ChefDigital.Entities.DTO;
+
+namespace ChefDigitalAPI.Application.Client.Interface
 {
     public interface IClientCreateAppService
     {
-        Task<ChefDigital.Entities.Entities.Client> Create(ChefDigital.Entities.Entities.Client client);
+        Task<ClientDTO> Create(ClientDTO client);
     }
 }

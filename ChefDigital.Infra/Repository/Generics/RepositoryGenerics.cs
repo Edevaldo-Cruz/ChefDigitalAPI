@@ -19,13 +19,15 @@ namespace ChefDigital.Infra.Repository.Generics
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public async Task Add(T Objeto)
+        public async Task<T> Add(T Objeto)
         {
             using (var data = new ContextBase(_OptionsBuilder))
             {
                 await data.Set<T>().AddAsync(Objeto);
                 await data.SaveChangesAsync();
             }
+
+            return Objeto;
         }
 
         public async Task Delete(T Objeto)
@@ -53,13 +55,14 @@ namespace ChefDigital.Infra.Repository.Generics
             }
         }
 
-        public async Task Update(T Objeto)
+        public async Task<T> Edit(T Objeto)
         {
             using (var data = new ContextBase(_OptionsBuilder))
             {
                 data.Set<T>().Update(Objeto);
                 await data.SaveChangesAsync();
             }
+            return Objeto;
         }
 
         public async Task<bool> ExistsAsync(Expression<Func<T, bool>> condition)
