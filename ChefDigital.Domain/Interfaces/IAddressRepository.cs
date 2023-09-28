@@ -10,5 +10,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IAddressRepository : IGeneric<Entities.Entities.Address> 
     {
+        Task<List<Entities.Entities.Address>> ListByIdClient(Guid id);
     }
 }

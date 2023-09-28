@@ -1,10 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Interfaces.Address;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Service.Address
 {

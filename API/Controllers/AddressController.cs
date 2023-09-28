@@ -18,15 +18,21 @@ namespace ChefDigital.API.Controllers
 
         private readonly IAddressEditAppService _addressEditAppService;
         private readonly IAddressListAppService _addressListAppService;
+        private readonly IAddressListByIdClientAppService _addressListByIdClient;
+        private readonly IAddressDisableAppService _addressDisableAddresAppService;
 
-        public AddressController(IAddressEditAppService addressEditAppService, 
-                                    IAddressListAppService addressListAppService)
+        public AddressController(IAddressEditAppService addressEditAppService,
+                                    IAddressListAppService addressListAppService,
+                                    IAddressListByIdClientAppService addressListByIdClient,
+                                    IAddressDisableAppService addressDisableAddresAppService)
         {
             _addressEditAppService = addressEditAppService;
             _addressListAppService = addressListAppService;
+            _addressListByIdClient = addressListByIdClient;
+            _addressDisableAddresAppService = addressDisableAddresAppService;
         }
 
-        [HttpPut("api/Edit/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] Entities.Entities.Address newAddress)
         {
             try
@@ -42,7 +48,7 @@ namespace ChefDigital.API.Controllers
             }
         }
 
-        [HttpGet("api/List")]
+        [HttpGet("")]
         public async Task<IActionResult> List()
         {
             try
@@ -55,6 +61,35 @@ namespace ChefDigital.API.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("{idClient}")]
+        public async Task<IActionResult> ListByIdClient(Guid idClient)
+        {
+            try
+            {
+                List<Entities.Entities.Address> resultados = await _addressListByIdClient.List(idClient);
+                return Ok(resultados);
+            }
+            catch (ArgumentValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("disable/{id}")]
+        public async Task<IActionResult> DisableAddress(Guid id)
+        {
+            try
+            {
+                var address = await _addressDisableAddresAppService.Disable(id);
+                return Ok(address);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
     }

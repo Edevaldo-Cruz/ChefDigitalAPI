@@ -44,8 +44,5 @@ namespace ChefDigital.Infra.Repository.Repositories
                 return clients;
             }
         }
-
-        
-
     }
 }

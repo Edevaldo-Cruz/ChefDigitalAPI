@@ -1,21 +1,21 @@
 using AutoMapper;
+using ChefDigital.API.Token;
+using ChefDigital.Domain.Interfaces;
+using ChefDigital.Domain.Interfaces.Address;
 using ChefDigital.Domain.Interfaces.Generics;
+using ChefDigital.Domain.Service.Address;
+using ChefDigital.Domain.Service.Client;
 using ChefDigital.Entities.Entities;
 using ChefDigital.Infra.Configuration;
 using ChefDigital.Infra.Repository.Generics;
+using ChefDigital.Infra.Repository.Repositories;
+using ChefDigitalAPI.Application.Address;
+using ChefDigitalAPI.Application.Address.Interface;
+using ChefDigitalAPI.Application.Client;
+using ChefDigitalAPI.Application.Client.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using ChefDigital.API.Token;
-using ChefDigital.Domain.Interfaces;
-using ChefDigital.Domain.Service.Client;
-using ChefDigital.Infra.Repository.Repositories;
-using ChefDigitalAPI.Application.Client;
-using ChefDigitalAPI.Application.Client.Interface;
-using ChefDigitalAPI.Application.Address.Interface;
-using ChefDigitalAPI.Application.Address;
-using ChefDigital.Domain.Interfaces.Address;
-using ChefDigital.Domain.Service.Address;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,10 +56,14 @@ builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 //Application Address
 builder.Services.AddScoped<IAddressEditAppService, AddressEditAppService>();
 builder.Services.AddScoped<IAddressListAppService, AddressListAppService>();
+builder.Services.AddScoped<IAddressListByIdClientAppService, AddressListByIdClientAppService>();
+builder.Services.AddScoped<IAddressDisableAppService, AddressDisableAppService>();
 
 //Domain Service Address
 builder.Services.AddScoped<IAddressEditService, AddressEditService>();
 builder.Services.AddScoped<IAddressListService, AddressListService>();
+builder.Services.AddScoped<IAddressListByIdClientService, AddressListByIdClientService>();
+builder.Services.AddScoped<IAddressDisableService, AddressDisableService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -25,7 +25,7 @@ namespace ChefDigital.API.Controllers
             _clientDisableAppService = clientDisableAppService;
         }
 
-        [HttpPost("/api/create")]
+        [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] ClientDTO client)
         {
             try
@@ -41,7 +41,7 @@ namespace ChefDigital.API.Controllers
             }
         }
 
-        [HttpPut("/api/edit/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] Client client)
         {
             try
@@ -63,7 +63,7 @@ namespace ChefDigital.API.Controllers
             return clients;
         }
 
-        [HttpPut("api/disableClient")]
+        [HttpPut("disable/{id}")]
         public async Task<IActionResult> DisableClient(Guid id)
         {
             try
