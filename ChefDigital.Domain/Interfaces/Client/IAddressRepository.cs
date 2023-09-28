@@ -1,17 +1,15 @@
 ﻿using ChefDigital.Domain.Interfaces.Generics;
-using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Interfaces
 {
-    public interface IClientRepository : IGeneric<Client>
+    public interface IAddressRepository : IRepository<Entities.Entities.Address> 
     {
-        Task<List<ClientDTO>> ClientListFilter(Expression<Func<Client, bool>> exClient);       
+        Task<List<Entities.Entities.Address>> ListByIdClient(Guid id);
     }
 }

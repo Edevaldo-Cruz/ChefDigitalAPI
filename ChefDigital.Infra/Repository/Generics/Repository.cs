@@ -10,11 +10,11 @@ namespace ChefDigital.Infra.Repository.Generics
 {
  
     //Copiar o codigo IDisposable
-    public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
+    public class Repository<T> : IRepository<T>, IDisposable where T : class
     {
         private readonly DbContextOptions<ContextBase> _OptionsBuilder;
 
-        public RepositoryGenerics()
+        public Repository()
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
@@ -70,6 +70,14 @@ namespace ChefDigital.Infra.Repository.Generics
             using (var data = new ContextBase(_OptionsBuilder))
             {
                 return await data.Set<T>().AnyAsync(condition);
+            }
+        }
+
+        public async Task<T> ExistsEntityAsync(Expression<Func<T, bool>> condition)
+        {
+            using (var data = new ContextBase(_OptionsBuilder))
+            {
+                return await data.Set<T>().FirstOrDefaultAsync(condition);
             }
         }
 

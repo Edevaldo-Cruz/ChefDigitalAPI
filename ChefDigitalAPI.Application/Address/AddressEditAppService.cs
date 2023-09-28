@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Entities.DTO.Address;
 using ChefDigitalAPI.Application.Address.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace ChefDigitalAPI.Application.Address
             _addressEditService = addressEditService;
         }
 
-        public async Task<ChefDigital.Entities.Entities.Address> Edit(Guid id, ChefDigital.Entities.Entities.Address address)
+        public async Task<ChefDigital.Entities.Entities.Address> EditAsync(Guid id, AddressEditDTO address)
         {
-           var resultado = await _addressEditService.Edit(id, address);
+           var resultado = await _addressEditService.EditAsync(id, address.ToAddress());
             return resultado;
         }
     }

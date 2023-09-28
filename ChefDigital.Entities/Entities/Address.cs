@@ -21,8 +21,7 @@ namespace ChefDigital.Entities.Entities
         public string Street { get; set; }
 
         [Required(ErrorMessage = "Number é obrigatório")]
-        [MaxLength(20, ErrorMessage = "Number deve ter no máximo 20 caracteres")]
-        public string Number { get; set; }
+        public int Number { get; set; }
 
         [Required(ErrorMessage = "Neighborhood é obrigatório")]
         [MaxLength(50, ErrorMessage = "Neighborhood deve ter no máximo 50 caracteres")]
@@ -32,28 +31,19 @@ namespace ChefDigital.Entities.Entities
         [MaxLength(50, ErrorMessage = "City deve ter no máximo 50 caracteres")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "State é obrigatório")]
-        [MaxLength(50, ErrorMessage = "State deve ter no máximo 50 caracteres")]
-        public string State { get; set; }
-
         [Required(ErrorMessage = "ZipCode é obrigatório")]
         [MaxLength(10, ErrorMessage = "ZipCode deve ter no máximo 10 caracteres")]
         public string ZipCode { get; set; }
 
-        [Required(ErrorMessage = "Country é obrigatório")]
-        [MaxLength(50, ErrorMessage = "Country deve ter no máximo 50 caracteres")]
-        public string Country { get; set; }
 
-        public Address(Guid clientId, string street, string number, string neighborhood, string city, string state, string zipCode, string country)
+        public Address(Guid clientId, string street, int number, string neighborhood, string city, string zipCode)
         {
             ClientId = clientId;
             Street = street;
             Number = number;
             Neighborhood = neighborhood;
             City = city;
-            State = state;
             ZipCode = zipCode;
-            Country = country;
         }
 
         public Address()

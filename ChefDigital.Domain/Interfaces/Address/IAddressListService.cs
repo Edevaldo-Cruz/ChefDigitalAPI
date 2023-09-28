@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChefDigital.Domain.Interfaces.Address
+﻿namespace ChefDigital.Domain.Interfaces.Address
 {
     public interface IAddressListService
     {
-        Task<List<Entities.Entities.Address>> List();
+        Task<List<Entities.Entities.Address>> ListAsync();
     }
 }

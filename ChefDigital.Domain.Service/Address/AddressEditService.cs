@@ -1,5 +1,7 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Entities.DTO.Address;
+using ChefDigital.Entities.Entities.Generics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,22 +21,43 @@ namespace ChefDigital.Domain.Service.Address
             _clientRepository = clientRepository;
         }
 
-        public async Task<Entities.Entities.Address> Edit(Guid id, Entities.Entities.Address address)
+        public async Task<Entities.Entities.Address> EditAsync(Guid id, Entities.Entities.Address address)
         {
             Entities.Entities.Address addressBanck = await _addressRepository.GetEntityById(id);
+            Entities.Entities.Address addressEmpty = new();
 
             bool existingAddress = await _addressRepository.ExistsAsync(a => a.Id == id);
-            if (!existingAddress) throw new ArgumentValidationException("O endereço não foi encontrado.");
+            if (!existingAddress)
+            {
+                Notification notification = new()
+                {
+                    PropertyName = "Address",
+                    Message = "O endereço não foi encontrado."
+                };
+                addressEmpty.Notitycoes.Add(notification);
+            }
 
-            // O Cliente deve existir para salvar no banco de dados
             bool existingClient = await _clientRepository.ExistsAsync(c => c.Id == address.ClientId);
-            if (!existingClient) throw new ArgumentValidationException("O cliente não foi encontrado.");
+            if (!existingClient)
+            {
+                Notification notification = new()
+                {
+                    PropertyName = "Address",
+                    Message = "O cliente não foi encontrado."
+                };
+                addressEmpty.Notitycoes.Add(notification);
+            }
+
+            if (addressEmpty != null)
+            {
+                return addressEmpty;
+            }
 
             address.Id = addressBanck.Id;
             address.SetDataAlteracao(DateTime.Now);
             Entities.Entities.Address newAddress = await _addressRepository.Edit(address);
 
-            return newAddress;            
+            return newAddress;
         }
     }
 }

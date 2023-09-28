@@ -1,51 +1,51 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Entities.Generics;
 
 namespace ChefDigital.Domain.Service.Client
 {
     public class ClientCreateService : IClientCreateService
     {
         private readonly IClientRepository _clientRepository;
-        private readonly IAddressRepository _addressRepository;
 
-        public ClientCreateService(IClientRepository clientRepository, IAddressRepository addressRepository)
+        public ClientCreateService(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
-            _addressRepository = addressRepository;
         }
 
-        public async Task<ClientDTO> Create(ClientDTO client)
+        public async Task<Entities.Entities.Client> CreateAsync(Entities.Entities.Client client)
         {
-            bool existingClient = await _clientRepository.ExistsAsync(c => c.FisrtName == client.FisrtName && c.Telephone == client.Telephone);
+            bool existingClient = await _clientRepository.ExistsAsync(c => c.FirstName == client.FirstName && c.Telephone == client.Telephone);
+
             if (existingClient)
             {
-                throw new ArgumentValidationException("O cliente já está cadastrado.");
-            }
-
-            if (client != null)
-            {
-                Entities.Entities.Client newClient = await _clientRepository.Add(client.ToClient());
-
-                if (client.Addresses != null)
+                Notification notification = new()
                 {
-                    foreach (var address in client.Addresses)
-                    {
-                        var newAddress = new Entities.Entities.Address(newClient.Id, address.Street, address.Number, address.Neighborhood, address.City, address.State, address.ZipCode, address.Country);
+                    Message = "O cliente já está cadastrado.",
+                    PropertyName = "Client"
+                };
 
-                        await _addressRepository.Add(newAddress);
-                    }
-                }
+                client.Notitycoes.Add(notification);
+                return client;
             }
-            else
+
+            if (client == null)
             {
-                throw new ArgumentValidationException("Preencha as informações do cliente.");
+                Entities.Entities.Client clientEmpty = new();
+                Notification notification = new()
+                {
+                    Message = "Preencha os dados do cliente.",
+                    PropertyName = "Client"
+                };
+
+                clientEmpty.Notitycoes.Add(notification);
+                return client;
             }
 
-            return client;
+            Entities.Entities.Client newClient = await _clientRepository.Add(client);
+            return newClient;
         }
-
-
 
     }
 }

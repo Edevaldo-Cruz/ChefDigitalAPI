@@ -1,5 +1,6 @@
 ﻿using ChefDigital.Domain.Interfaces;
-using ChefDigital.Entities.DTO;
+using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Entities.DTO.Client;
 using ChefDigitalAPI.Application.Client.Interface;
 
 namespace ChefDigitalAPI.Application.Client
@@ -7,16 +8,23 @@ namespace ChefDigitalAPI.Application.Client
     public class ClientCreateAppService : IClientCreateAppService
     {
         private readonly IClientCreateService _clientCreateService;
+        private readonly IAddressCreateService _addressCreateService;
 
-        public ClientCreateAppService(IClientCreateService clientCreateService)
+        public ClientCreateAppService(IClientCreateService clientCreateService,
+                                        IAddressCreateService addressCreateService)
         {
             _clientCreateService = clientCreateService;
+            _addressCreateService = addressCreateService;
         }
 
-        public Task<ClientDTO> Create(ClientDTO client)
+        public async Task<ChefDigital.Entities.Entities.Client> Create(ClientCreateDTO client)
         {
-            var result = _clientCreateService.Create(client);
-            return result;
+            var newClient = await _clientCreateService.CreateAsync(client.ToClient());
+
+            if (newClient != null && !newClient.HasNotifications)
+                await _addressCreateService.CreateAsync(newClient.Id, client.ToAddress());
+
+            return newClient;
         }
     }
 }

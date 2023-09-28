@@ -1,21 +1,28 @@
 using AutoMapper;
+using ChefDigital.API.Token;
+using ChefDigital.Domain.Interfaces;
+using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Domain.Interfaces.Client;
 using ChefDigital.Domain.Interfaces.Generics;
+using ChefDigital.Domain.Interfaces.Order;
+using ChefDigital.Domain.Interfaces.OrderedItem;
+using ChefDigital.Domain.Service.Address;
+using ChefDigital.Domain.Service.Client;
+using ChefDigital.Domain.Service.Order;
+using ChefDigital.Domain.Service.OrderedItem;
 using ChefDigital.Entities.Entities;
 using ChefDigital.Infra.Configuration;
 using ChefDigital.Infra.Repository.Generics;
+using ChefDigital.Infra.Repository.Repositories;
+using ChefDigitalAPI.Application.Address;
+using ChefDigitalAPI.Application.Address.Interface;
+using ChefDigitalAPI.Application.Client;
+using ChefDigitalAPI.Application.Client.Interface;
+using ChefDigitalAPI.Application.Order;
+using ChefDigitalAPI.Application.Order.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using ChefDigital.API.Token;
-using ChefDigital.Domain.Interfaces;
-using ChefDigital.Domain.Service.Client;
-using ChefDigital.Infra.Repository.Repositories;
-using ChefDigitalAPI.Application.Client;
-using ChefDigitalAPI.Application.Client.Interface;
-using ChefDigitalAPI.Application.Address.Interface;
-using ChefDigitalAPI.Application.Address;
-using ChefDigital.Domain.Interfaces.Address;
-using ChefDigital.Domain.Service.Address;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +44,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 // INTERFACE E REPOSITORIO
-builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
+builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderedItemRepository, OrderedItemRepository>();
 
 //Application CLient
 builder.Services.AddScoped<IClientCreateAppService, ClientCreateAppService>();
@@ -52,14 +61,40 @@ builder.Services.AddScoped<IClientCreateService, ClientCreateService>();
 builder.Services.AddScoped<IClientUpdateService, ClientUpdateService>();
 builder.Services.AddScoped<IClientListService, ClientListService>();
 builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
+builder.Services.AddScoped<IClientExistsService, ClientExistsService>();
 
 //Application Address
 builder.Services.AddScoped<IAddressEditAppService, AddressEditAppService>();
 builder.Services.AddScoped<IAddressListAppService, AddressListAppService>();
+builder.Services.AddScoped<IAddressListByIdClientAppService, AddressListByIdClientAppService>();
+builder.Services.AddScoped<IAddressDisableAppService, AddressDisableAppService>();
+
 
 //Domain Service Address
 builder.Services.AddScoped<IAddressEditService, AddressEditService>();
 builder.Services.AddScoped<IAddressListService, AddressListService>();
+builder.Services.AddScoped<IAddressListByIdClientService, AddressListByIdClientService>();
+builder.Services.AddScoped<IAddressDisableService, AddressDisableService>();
+builder.Services.AddScoped<IAddressCreateService, AddressCreateService>();
+builder.Services.AddScoped<IAddressExistsService, AddressExistsService>();
+
+//Application Order
+builder.Services.AddScoped<IOrderCreateAppService, OrderCreateAppService>();
+builder.Services.AddScoped<IOrderCancelAppService, OrderCancelAppService>();
+builder.Services.AddScoped<IOrderUpdateOrderAppService, OrderUpdateOrderAppService>();
+
+//Domain Service Order
+builder.Services.AddScoped<IOrderCreateService, OrderCreateService>();
+builder.Services.AddScoped<IOrderCancelService, OrderCancelService>();
+builder.Services.AddScoped<IOrderUpdateStatusService, OrderUpdateStatusService>();
+
+//Domain Service OrderedItem
+builder.Services.AddScoped<IOrderedItemCreateService, OrderedItemCreateService>();
+builder.Services.AddScoped<IOrderUpdateValueService, OrderUpdateValueService>();
+
+
+
+
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

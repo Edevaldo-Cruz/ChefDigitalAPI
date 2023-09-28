@@ -1,10 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces.Address;
 using ChefDigitalAPI.Application.Address.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChefDigitalAPI.Application.Address
 {
@@ -17,9 +12,9 @@ namespace ChefDigitalAPI.Application.Address
             _addressListService = addressListService;
         }
 
-        public async Task<List<ChefDigital.Entities.Entities.Address>> List()
+        public async Task<List<ChefDigital.Entities.Entities.Address>> ListAsync()
         {
-            var resultado = await _addressListService.List();
+            var resultado = await _addressListService.ListAsync();
 
             return resultado;
         }

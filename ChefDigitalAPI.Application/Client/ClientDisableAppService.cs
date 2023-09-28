@@ -17,9 +17,9 @@ namespace ChefDigitalAPI.Application.Client
             _clientDisableService = clientDisableService;
         }
 
-        public Task<ChefDigital.Entities.Entities.Client> Disable(Guid id)
+        public Task<ChefDigital.Entities.Entities.Client> DisableAsync(Guid id)
         {
-           var result = _clientDisableService.Disable(id);
+           var result = _clientDisableService.DisableAsync(id);
             return result;
         }
     }

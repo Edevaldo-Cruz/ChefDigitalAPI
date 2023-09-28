@@ -1,7 +1,9 @@
-﻿using ChefDigital.Entities.DTO;
+﻿using ChefDigital.Entities.DTO.Client;
 using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Entities.Generics;
 using ChefDigitalAPI.Application.Client.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ChefDigital.API.Controllers
 {
@@ -25,59 +27,47 @@ namespace ChefDigital.API.Controllers
             _clientDisableAppService = clientDisableAppService;
         }
 
-        [HttpPost("/api/create")]
-        public async Task<IActionResult> Create([FromBody] ClientDTO client)
+        [HttpPost("")]
+        public async Task<IActionResult> Create([FromBody] ClientCreateDTO client)
         {
-            try
-            {
-                ClientDTO newClient = new ClientDTO();
-                newClient = await _clientAppServiceCreate.Create(client);
-                return Ok(newClient);
-            }
-            catch (ArgumentValidationException ex)
-            {
-                var innerException = ex.InnerException;
-                return BadRequest(innerException);
-            }
+            Entities.Entities.Client newClient = await _clientAppServiceCreate.Create(client);
+
+            if (newClient.HasNotifications)
+                return BadRequest(newClient.Notitycoes);
+
+            return Ok(newClient);
         }
 
-        [HttpPut("/api/edit/{id}")]
-        public async Task<IActionResult> Edit(Guid id, [FromBody] Client client)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] ClientEditDTO client)
         {
-            try
-            {
-                Client clientEdit = new Client();
-                clientEdit = await _clientUpdateAppService.Edit(id, client);
-                return Ok(clientEdit);
-            }
-            catch (ArgumentValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var clientEdit = await _clientUpdateAppService.EditAsync(id, client);
+
+            if (clientEdit.HasNotifications)
+                return BadRequest(clientEdit.Notitycoes);
+
+            return Ok(clientEdit);
+
         }
 
         [HttpGet("")]
-        public async Task<List<ClientDTO>> List()
+        public async Task<List<ClientListDTO>> List()
         {
-            var clients = await _clientListAppService.List();
+            var clients = await _clientListAppService.ListAsync();
             return clients;
         }
 
-        [HttpPut("api/disableClient")]
+        [HttpPut("disable/{id}")]
         public async Task<IActionResult> DisableClient(Guid id)
         {
-            try
-            {
-                Client newClient = new Client();
-                newClient = await _clientDisableAppService.Disable(id);
+            Client newClient = new Client();
+            newClient = await _clientDisableAppService.DisableAsync(id);
 
-                return Ok(newClient);
+            if (newClient.HasNotifications)
+                return BadRequest(newClient.Notitycoes);
 
-            }
-            catch (ArgumentValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok("Cliente desabilitado.");
         }
 
 

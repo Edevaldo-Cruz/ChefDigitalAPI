@@ -43,6 +43,7 @@
 
 using ChefDigital.Domain.Interfaces;
 using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Entities.Generics;
 using ChefDigital.Infra.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -61,13 +62,21 @@ namespace ChefDigital.Domain.Service.Client
             _dbContext = dbContext;
         }
 
-        public async Task<Entities.Entities.Client> Edit(Guid id, Entities.Entities.Client client)
+        public async Task<Entities.Entities.Client> EditAsync(Guid id, Entities.Entities.Client client)
         {
             Entities.Entities.Client bankClient = await _clientRepository.GetEntityById(id);
 
             if (bankClient == null)
             {
-                throw new ArgumentValidationException($"Cliente com o ID {id} não encontrado.");
+                Entities.Entities.Client clientEmpty = new();
+                Notification notification = new()
+                {
+                    PropertyName = "Client",
+                    Message = $"Cliente com o ID {id} não encontrado."
+                };
+
+                clientEmpty.Notitycoes.Add(notification);
+                return clientEmpty;
             }
 
             client.Id = bankClient.Id;

@@ -8,6 +8,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientDisableService
     {
-        Task<Entities.Entities.Client> Disable(Guid id);
+        Task<Entities.Entities.Client> DisableAsync(Guid id);
     }
 }

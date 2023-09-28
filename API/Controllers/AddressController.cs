@@ -1,4 +1,5 @@
-﻿using ChefDigital.Entities.Entities;
+﻿using ChefDigital.Entities.DTO.Address;
+using ChefDigital.Entities.Entities;
 using ChefDigitalAPI.Application.Address.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,52 +10,53 @@ namespace ChefDigital.API.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        /*TODO
-         * Editar
-         * listar todos
-         * listar por id cliente
-         * desativar
-         */
-
         private readonly IAddressEditAppService _addressEditAppService;
         private readonly IAddressListAppService _addressListAppService;
+        private readonly IAddressListByIdClientAppService _addressListByIdClient;
+        private readonly IAddressDisableAppService _addressDisableAddresAppService;
 
-        public AddressController(IAddressEditAppService addressEditAppService, 
-                                    IAddressListAppService addressListAppService)
+        public AddressController(IAddressEditAppService addressEditAppService,
+                                    IAddressListAppService addressListAppService,
+                                    IAddressListByIdClientAppService addressListByIdClient,
+                                    IAddressDisableAppService addressDisableAddresAppService)
         {
             _addressEditAppService = addressEditAppService;
             _addressListAppService = addressListAppService;
+            _addressListByIdClient = addressListByIdClient;
+            _addressDisableAddresAppService = addressDisableAddresAppService;
         }
 
-        [HttpPut("api/Edit/{id}")]
-        public async Task<IActionResult> Edit(Guid id, [FromBody] Entities.Entities.Address newAddress)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] AddressEditDTO newAddress)
         {
-            try
-            {
-                Entities.Entities.Address addressEdit = new Entities.Entities.Address();
-                addressEdit = await _addressEditAppService.Edit(id, newAddress);
+            var addressEdit = await _addressEditAppService.EditAsync(id, newAddress);
+            if (addressEdit.HasNotifications)
+                return BadRequest(addressEdit.Notitycoes);
 
-                return Ok(addressEdit);
-            }
-            catch (ArgumentValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(addressEdit);
         }
 
-        [HttpGet("api/List")]
+
+        [HttpGet("")]
         public async Task<IActionResult> List()
         {
-            try
-            {
-                List<Entities.Entities.Address> resultados = await _addressListAppService.List();
-                return Ok(resultados);
-            }
-            catch (ArgumentValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            List<Entities.Entities.Address> resultados = await _addressListAppService.ListAsync();
+            return Ok(resultados);
+        }
 
+        [HttpGet("{idClient}")]
+        public async Task<IActionResult> ListByIdClient(Guid idClient)
+        {
+            List<Entities.Entities.Address> list = await _addressListByIdClient.ListAsync(idClient);
+            return Ok(list);
+        }
+
+        [HttpPut("disable/{id}")]
+        public async Task<IActionResult> DisableAddress(Guid id)
+        {
+                var address = await _addressDisableAddresAppService.DisableAsync(id);
+                return Ok(address);
+            
         }
 
     }

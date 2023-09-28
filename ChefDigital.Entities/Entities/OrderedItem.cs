@@ -16,29 +16,28 @@ namespace ChefDigital.Entities.Entities
             UnitValue = unitValue;
             ItemQuantity = itemQuantity;
         }
-
-        protected OrderedItem()
+        public OrderedItem()
         {
-
+            
         }
 
-        [Required(ErrorMessage = "OrderId é obrigatório")]
+        //[Required(ErrorMessage = "OrderId é obrigatório")]
         public Guid OrderId { get; set; }
 
-        [ForeignKey("OrderId")]
+        //[ForeignKey("OrderId")]
         public Order Order { get; set; }
 
-        [Required(ErrorMessage = "Item é obrigatório")]
+        //[Required(ErrorMessage = "Item é obrigatório")]
         [MaxLength(100, ErrorMessage = "Item deve ter no máximo 100 caracteres")]
         public string Item { get; set; }
 
-        [Required(ErrorMessage = "UnitValue é obrigatório")]
+        //[Required(ErrorMessage = "UnitValue é obrigatório")]
         public decimal UnitValue { get; set; }
 
-        [Required(ErrorMessage = "ItemQuantity é obrigatório")]
+        //[Required(ErrorMessage = "ItemQuantity é obrigatório")]
         public int ItemQuantity { get; set; }
 
-        [Required(ErrorMessage = "TotalItemValue é obrigatório")]
+        //[Required(ErrorMessage = "TotalItemValue é obrigatório")]
         public decimal TotalItemValue => UnitValue * ItemQuantity;
     }
 }

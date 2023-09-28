@@ -8,6 +8,6 @@ namespace ChefDigital.Domain.Interfaces.Address
 {
     public interface IAddressEditService
     {
-        Task<Entities.Entities.Address> Edit (Guid id, Entities.Entities.Address address);
+        Task<Entities.Entities.Address> EditAsync (Guid id, Entities.Entities.Address address);
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChefDigital.Infra.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230927201243_CriandoTabelas")]
-    partial class CriandoTabelas
+    [Migration("20231006223831_AdicionandoTabelas")]
+    partial class AdicionandoTabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,11 +44,6 @@ namespace ChefDigital.Infra.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<DateTime>("InclusionDate")
                         .HasColumnType("datetime2");
 
@@ -57,15 +52,8 @@ namespace ChefDigital.Infra.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -78,6 +66,8 @@ namespace ChefDigital.Infra.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Address", (string)null);
                 });
@@ -166,7 +156,7 @@ namespace ChefDigital.Infra.Migrations
                     b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FisrtName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -206,6 +196,9 @@ namespace ChefDigital.Infra.Migrations
 
                     b.Property<DateTime>("InclusionDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalOrderValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -387,6 +380,15 @@ namespace ChefDigital.Infra.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ChefDigital.Entities.Entities.Address", b =>
+                {
+                    b.HasOne("ChefDigital.Entities.Entities.Client", null)
+                        .WithMany("Addresses")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChefDigital.Entities.Entities.Order", b =>
                 {
                     b.HasOne("ChefDigital.Entities.Entities.Client", "Client")
@@ -458,6 +460,11 @@ namespace ChefDigital.Infra.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChefDigital.Entities.Entities.Client", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("ChefDigital.Entities.Entities.Order", b =>

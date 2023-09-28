@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.Entities.Generics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,23 @@ namespace ChefDigital.Domain.Service.Client
             _clientRepository = clientRepository;
         }
 
-        public async Task<Entities.Entities.Client> Disable(Guid id)
+        public async Task<Entities.Entities.Client> DisableAsync(Guid id)
         {
             Entities.Entities.Client clientBank = new Entities.Entities.Client();
             clientBank = await _clientRepository.GetEntityById(id);
+
+            if (clientBank == null)
+            {
+                Entities.Entities.Client clientEmpty = new();
+                Notification notification = new()
+                {
+                    PropertyName = "Client",
+                    Message = $"Cliente com o ID {id} não encontrado."
+                };
+
+                clientEmpty.Notitycoes.Add(notification);
+                return clientEmpty;
+            }
 
             clientBank.SetActiveFalse();
             clientBank.SetDataAlteracao(DateTime.Now);

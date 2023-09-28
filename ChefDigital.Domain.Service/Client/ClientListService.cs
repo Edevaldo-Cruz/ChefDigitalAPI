@@ -1,5 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
-using ChefDigital.Entities.DTO;
+using ChefDigital.Entities.DTO.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace ChefDigital.Domain.Service.Client
             _clientRepository = clientRepository;
         }
 
-        public async Task<List<ClientDTO>> List()
+        public async Task<List<ClientListDTO>> ListAsync()
         {
             return await _clientRepository.ClientListFilter(c => c.Active == true);
         }

@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Interfaces.Generics
 {
-    public interface IGeneric<T> where T : class
+    public interface IRepository<T> where T : class
     {
         Task<T> Add(T entity);
         Task<T> Edit(T entity);
         Task Delete(T entity);
         Task<T> GetEntityById(Guid id);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> condition);
+        Task<T> ExistsEntityAsync(Expression<Func<T, bool>> condition);        
         Task<List<T>> List();
     }
 }

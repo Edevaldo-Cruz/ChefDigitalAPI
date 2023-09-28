@@ -9,6 +9,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientUpdateService
     {
-        Task<Client> Edit(Guid id, Client client);
+        Task<Entities.Entities.Client> EditAsync(Guid id, Entities.Entities.Client client);
     }
 }

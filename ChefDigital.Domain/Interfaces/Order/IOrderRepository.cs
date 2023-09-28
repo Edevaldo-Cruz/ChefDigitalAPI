@@ -1,5 +1,4 @@
 ﻿using ChefDigital.Domain.Interfaces.Generics;
-using ChefDigital.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Interfaces
 {
-    public interface IAddressRepository : IGeneric<Entities.Entities.Address> 
+    public interface IOrderRepository : IRepository<Entities.Entities.Order>
     {
     }
 }

@@ -6,6 +6,6 @@ namespace ChefDigital.Entities.Entities
     public class ApplicationUser : IdentityUser
     {
         public string CPF { get; set; }
-        public TipoUsuario? Tipo { get; set; }
+        public UserTypeEnum? Type { get; set; }
     }
 }

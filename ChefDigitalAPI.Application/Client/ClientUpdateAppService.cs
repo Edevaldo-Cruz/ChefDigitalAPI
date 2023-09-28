@@ -1,4 +1,5 @@
 ﻿using ChefDigital.Domain.Interfaces;
+using ChefDigital.Entities.DTO.Client;
 using ChefDigitalAPI.Application.Client.Interface;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace ChefDigitalAPI.Application.Client
             _clientUpdateService = clientUpdateService;
         }
 
-        public Task<ChefDigital.Entities.Entities.Client> Edit(Guid id, ChefDigital.Entities.Entities.Client client)
+        public Task<ChefDigital.Entities.Entities.Client> EditAsync(Guid id, ClientEditDTO client)
         {
-            var result = _clientUpdateService.Edit(id, client);
+            var result = _clientUpdateService.EditAsync(id, client.ToClient());
             return result;
         }
     }

@@ -75,7 +75,7 @@ namespace ChefDigital.API.Controllers
                 UserName = login.email,
                 Email = login.email,
                 CPF = login.cpf,
-                Tipo = TipoUsuario.Comum,
+                Type = UserTypeEnum.Common,
             };
 
             var resultado = await _userManager.CreateAsync(user, login.senha);

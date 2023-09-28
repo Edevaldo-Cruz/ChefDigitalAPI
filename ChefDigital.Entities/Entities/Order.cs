@@ -1,42 +1,54 @@
 ﻿using ChefDigital.Entities.Entities.Generics;
-using System;
-using System.Collections.Generic;
+using ChefDigital.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace ChefDigital.Entities.Entities
 {
-    public class Order : EntityBase
+    public class Order : EntityGeneric
     {
-        public Order(Guid clientId)
+        public Order()
         {
-            ClientId = clientId;
-            Items = new List<OrderedItem>();
+            Status = OrderStatusEnum.Processing;
         }
 
-        [Required(ErrorMessage = "ClientId é obrigatório")]
+        [Required]
         public Guid ClientId { get; set; }
-
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
-
-        [Required(ErrorMessage = "Items é obrigatório")]
+        [Required]
         public List<OrderedItem> Items { get; set; }
+        [Required]
+        public decimal TotalOrderValue { get; private set; }
+        [Required]
+        public OrderStatusEnum Status { get; private set; }
 
-        [Required(ErrorMessage = "TotalOrderValue é obrigatório")]
-        public decimal TotalOrderValue => CalculateTotalOrderValue();
-
-        private decimal CalculateTotalOrderValue()
+        public void SetTotal(decimal value)
         {
-            decimal total = 0;
+            TotalOrderValue = value;
+        }
 
-            foreach (var item in Items)
+        public void SetStatus()
+        {
+            if (Status < OrderStatusEnum.Sent)
             {
-                total += item.TotalItemValue;
+                Status++;
             }
+        }
 
-            return total;
+        public void SetStatusCanceled()
+        {
+            Status = OrderStatusEnum.Canceled;
+        }
+
+
+        public DTO.OrderDTO ToOrderDTO()
+        {
+            DTO.OrderDTO order = new DTO.OrderDTO()
+            {
+                ClientId = this.ClientId
+            };
+            return order;
         }
     }
 }

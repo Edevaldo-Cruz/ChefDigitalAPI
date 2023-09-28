@@ -5,6 +5,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientCreateService
     {
-        Task<ClientDTO> Create(ClientDTO client);
+        Task<Entities.Entities.Client> CreateAsync(Entities.Entities.Client client);
     }
 }

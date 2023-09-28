@@ -8,6 +8,6 @@ namespace ChefDigitalAPI.Application.Address.Interface
 {
     public interface IAddressListAppService
     {
-        Task<List<ChefDigital.Entities.Entities.Address>> List();
+        Task<List<ChefDigital.Entities.Entities.Address>> ListAsync();
     }
 }

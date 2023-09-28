@@ -7,22 +7,8 @@ using System.Threading.Tasks;
 
 namespace ChefDigital.Entities.Entities.Generics
 {
-    public class EntityBase 
+    public abstract class EntityBase : EntityGeneric
     {
-        protected EntityBase() 
-        {
-            Id = Guid.NewGuid();
-            InclusionDate = DateTime.Now;
-        }
-
-        public Guid Id { get; set; }
         public bool Active { get; set; }
-        public DateTime InclusionDate { get; private set; }
-        public DateTime? ChangeDate { get; private set; }
-
-        public void SetDataAlteracao (DateTime? dataAlteracao)
-        {
-            ChangeDate = dataAlteracao;
-        }
     }
 }

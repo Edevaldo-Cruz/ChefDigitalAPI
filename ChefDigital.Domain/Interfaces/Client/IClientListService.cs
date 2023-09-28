@@ -1,9 +1,9 @@
-﻿using ChefDigital.Entities.DTO;
+﻿using ChefDigital.Entities.DTO.Client;
 
 namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientListService
     {
-        Task<List<ClientDTO>> List();
+        Task<List<ClientListDTO>> ListAsync();
     }
 }
