@@ -17,10 +17,13 @@ namespace ChefDigital.API.Controllers
          */
 
         private readonly IAddressEditAppService _addressEditAppService;
+        private readonly IAddressListAppService _addressListAppService;
 
-        public AddressController(IAddressEditAppService addressEditAppService)
+        public AddressController(IAddressEditAppService addressEditAppService, 
+                                    IAddressListAppService addressListAppService)
         {
             _addressEditAppService = addressEditAppService;
+            _addressListAppService = addressListAppService;
         }
 
         [HttpPut("api/Edit/{id}")]
@@ -33,16 +36,25 @@ namespace ChefDigital.API.Controllers
 
                 return Ok(addressEdit);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (ArgumentValidationException ex)
             {
-                // Trate a exceção de concorrência aqui
-                // Exemplo: Registrar detalhes, enviar uma resposta de erro personalizada, etc.
-                return StatusCode(409, "Concorrência detectada: A entidade foi modificada por outro usuário.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("api/List")]
+        public async Task<IActionResult> List()
+        {
+            try
+            {
+                List<Entities.Entities.Address> resultados = await _addressListAppService.List();
+                return Ok(resultados);
             }
             catch (ArgumentValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
+
         }
 
     }

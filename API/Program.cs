@@ -55,9 +55,11 @@ builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 
 //Application Address
 builder.Services.AddScoped<IAddressEditAppService, AddressEditAppService>();
+builder.Services.AddScoped<IAddressListAppService, AddressListAppService>();
 
 //Domain Service Address
 builder.Services.AddScoped<IAddressEditService, AddressEditService>();
+builder.Services.AddScoped<IAddressListService, AddressListService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

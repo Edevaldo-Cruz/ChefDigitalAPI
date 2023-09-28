@@ -16,5 +16,12 @@ namespace ChefDigital.Infra.Repository.Repositories
         }
 
 
+        //public async Task<List<Address>> AddressList()
+        //{
+        //    using (var bank = new ContextBase(_optionsBuilder))
+        //    {
+        //        return await bank.Set<Address>().ToListAsync();
+        //    }
+        //}
     }
 }

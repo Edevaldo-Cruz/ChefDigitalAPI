@@ -12,8 +12,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IClientRepository : IGeneric<Client>
     {
-        Task<List<ClientDTO>> ClientListFilter(Expression<Func<Client, bool>> exClient);
-
-        Task<List<Client>> ClientList();
+        Task<List<ClientDTO>> ClientListFilter(Expression<Func<Client, bool>> exClient);       
     }
 }

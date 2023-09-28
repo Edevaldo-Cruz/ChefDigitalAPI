@@ -45,16 +45,7 @@ namespace ChefDigital.Infra.Repository.Repositories
             }
         }
 
-
-
-        public async Task<List<Client>> ClientList()
-        {
-            var teste = _optionsBuilder;
-            using (var bank = new ContextBase(_optionsBuilder))
-            {
-                return await bank.Set<Client>().ToListAsync();
-            }
-        }
+        
 
     }
 }
