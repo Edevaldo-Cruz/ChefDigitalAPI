@@ -59,5 +59,34 @@ namespace ChefDigital.API.Controllers
             
         }
 
+        [HttpGet("{idClient}")]
+        public async Task<IActionResult> ListByIdClient(Guid idClient)
+        {
+            try
+            {
+                List<Entities.Entities.Address> resultados = await _addressListByIdClient.List(idClient);
+                return Ok(resultados);
+            }
+            catch (ArgumentValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("disable/{id}")]
+        public async Task<IActionResult> DisableAddress(Guid id)
+        {
+            try
+            {
+                var address = await _addressDisableAddresAppService.Disable(id);
+                return Ok(address);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
     }
 }

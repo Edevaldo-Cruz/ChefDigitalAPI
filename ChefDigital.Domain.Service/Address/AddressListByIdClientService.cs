@@ -23,7 +23,7 @@ namespace ChefDigital.Domain.Service.Address
             List<Entities.Entities.Address> addresses = new();
             addresses = await _addressRepository.ListByIdClient(id);
 
-            if (addresses == null)
+            if (addresses == null) 
             {
                 Entities.Entities.Address addressEmpty = new();
                 Notification notification = new()

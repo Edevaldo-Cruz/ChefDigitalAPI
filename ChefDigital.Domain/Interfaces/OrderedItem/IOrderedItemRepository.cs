@@ -10,5 +10,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IOrderedItemRepository : IRepository<Entities.Entities.OrderedItem>
     {
+        Task<List<Entities.Entities.Address>> ListByIdClient(Guid id);
     }
 }
