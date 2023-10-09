@@ -41,7 +41,7 @@ namespace ChefDigitalAPI.Application.Order
             _orderUpdateValueService = orderUpdateValueService;
         }
 
-        public async Task<bool> CreateAsync(OrderDTO orderDTO)
+        public async Task<bool> CreateAsync(OrderCreateDTO orderDTO)
         {
             decimal total = 0;
             Guid id;
@@ -72,8 +72,7 @@ namespace ChefDigitalAPI.Application.Order
                 await _addressCreateService.CreateAsync(id, orderDTO.ToAddress());
             }
 
-            orderDTO.ClientId = id;
-            var result = await _orderCreateService.CreateAsync(orderDTO);
+            var result = await _orderCreateService.CreateAsync(id);
 
             if (result != null) 
             {

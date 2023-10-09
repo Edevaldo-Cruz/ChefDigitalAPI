@@ -2,6 +2,6 @@
 {
     public interface IOrderCreateService
     {
-        Task<Entities.Entities.Order> CreateAsync(Entities.DTO.OrderDTO orderDTO);
+        Task<Entities.Entities.Order> CreateAsync(Guid clientId);
     }
 }

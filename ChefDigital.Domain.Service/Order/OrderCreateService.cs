@@ -30,9 +30,12 @@ namespace ChefDigital.Domain.Service.Order
             _orderedItem = orderedItem;
         }
 
-        public async Task<Entities.Entities.Order> CreateAsync(OrderDTO orderDTO)
+        public async Task<Entities.Entities.Order> CreateAsync(Guid clientId)
         {
-            var newOrder = await _orderRepository.Add(orderDTO.ToOrder());
+            Entities.Entities.Order orderEntities = new();
+            orderEntities.ClientId = clientId;
+
+            var newOrder = await _orderRepository.Add(orderEntities);
 
             if (newOrder == null)
             {

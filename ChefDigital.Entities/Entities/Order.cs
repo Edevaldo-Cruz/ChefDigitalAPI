@@ -42,13 +42,6 @@ namespace ChefDigital.Entities.Entities
         }
 
 
-        public DTO.OrderDTO ToOrderDTO()
-        {
-            DTO.OrderDTO order = new DTO.OrderDTO()
-            {
-                ClientId = this.ClientId
-            };
-            return order;
-        }
+        
     }
 }

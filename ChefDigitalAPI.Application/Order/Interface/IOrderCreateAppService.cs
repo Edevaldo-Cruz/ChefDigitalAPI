@@ -9,6 +9,6 @@ namespace ChefDigitalAPI.Application.Order.Interface
 {
     public interface IOrderCreateAppService
     {
-        Task<bool> CreateAsync(OrderDTO orderDTO);
+        Task<bool> CreateAsync(OrderCreateDTO orderDTO);
     }
 }

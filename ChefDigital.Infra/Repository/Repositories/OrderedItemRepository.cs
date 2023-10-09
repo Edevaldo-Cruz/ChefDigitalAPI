@@ -11,5 +11,9 @@ namespace ChefDigital.Infra.Repository.Repositories
 {
     public class OrderedItemRepository : Repository<OrderedItem>, IOrderedItemRepository
     {
+        public Task<List<Address>> ListByIdClient(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

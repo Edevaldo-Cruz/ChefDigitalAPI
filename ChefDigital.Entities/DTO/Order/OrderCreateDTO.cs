@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace ChefDigital.Entities.DTO
 {
-    public class OrderDTO
+    public class OrderCreateDTO
     {
-        public Guid ClientId { get; set; }
+        //public Guid ClientId { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
 
@@ -77,14 +77,14 @@ namespace ChefDigital.Entities.DTO
             return address;
         }
 
-        public Order ToOrder()
-        {
-            Order order = new Order()
-            {
-                ClientId = this.ClientId
-            };
-            return order;
-        }
+        //public Order ToOrder()
+        //{
+        //    Order order = new Order()
+        //    {
+        //        ClientId = this.ClientId
+        //    };
+        //    return order;
+        //}
 
         public List<OrderedItem> ToOrderedItem()
         {

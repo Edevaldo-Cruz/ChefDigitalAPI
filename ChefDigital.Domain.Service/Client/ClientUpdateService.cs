@@ -81,7 +81,6 @@ namespace ChefDigital.Domain.Service.Client
 
             client.Id = bankClient.Id;
             client.SetDataAlteracao(DateTime.Now);
-            client.SetActiveFalse();
 
             // Chame o novo método para salvar as alterações no banco de dados diretamente
             await SaveClientChangesDirectly(client);

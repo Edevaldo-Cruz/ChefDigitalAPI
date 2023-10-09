@@ -11,6 +11,7 @@ namespace ChefDigital.Entities.DTO.Client
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Telephone { get; set; }
+        public bool Active { get; set; }
 
         public Entities.Client ToClient()
         {
@@ -18,7 +19,8 @@ namespace ChefDigital.Entities.DTO.Client
             {
                 FirstName = FirstName,
                 Surname = Surname,
-                Telephone = Telephone
+                Telephone = Telephone,
+                Active = Active
             };
             return client;
         }

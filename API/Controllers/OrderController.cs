@@ -22,7 +22,7 @@ namespace ChefDigital.API.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] OrderDTO order)
+        public async Task<IActionResult> Create([FromBody] OrderCreateDTO order)
         {
             var result = await _orderCreateAppService.CreateAsync(order);
             return Ok("Pedido Realizado com sucesso.");
