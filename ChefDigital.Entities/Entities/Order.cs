@@ -19,13 +19,18 @@ namespace ChefDigital.Entities.Entities
         [Required]
         public List<OrderedItem> Items { get; set; }
         [Required]
+        public decimal Subtotal { get; set; }
+        [Required]
+        public decimal Discount { get; set; }
+        [Required]
         public decimal TotalOrderValue { get; private set; }
+
         [Required]
         public OrderStatusEnum Status { get; private set; }
 
-        public void SetTotal(decimal value)
+        public void SetTotal(decimal subtotal, decimal discount)
         {
-            TotalOrderValue = value;
+            TotalOrderValue = subtotal - discount;
         }
 
         public void SetStatus()
@@ -42,6 +47,5 @@ namespace ChefDigital.Entities.Entities
         }
 
 
-        
     }
 }

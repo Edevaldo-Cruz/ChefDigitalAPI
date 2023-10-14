@@ -17,7 +17,7 @@ namespace ChefDigitalAPI.Application.Order
             _orderUpdateStatusService = orderUpdateOrderService;
         }
 
-        public async Task<ChefDigital.Entities.Entities.Order> UpdateOrderAsync(Guid id)
+        public async Task<ChefDigital.Entities.Entities.Order> UpdateStatusOrderAsync(Guid id)
         {
             var result = await _orderUpdateStatusService.UpdateOrderStatusAsync(id);
 

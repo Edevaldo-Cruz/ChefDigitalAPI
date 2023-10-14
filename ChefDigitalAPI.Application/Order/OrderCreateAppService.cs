@@ -6,11 +6,6 @@ using ChefDigital.Domain.Interfaces.OrderedItem;
 using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
 using ChefDigitalAPI.Application.Order.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChefDigitalAPI.Application.Order
 {
@@ -23,6 +18,7 @@ namespace ChefDigitalAPI.Application.Order
         private readonly IAddressExistsService _addressExistsService;
         private readonly IOrderedItemCreateService _orderedItemCreateService;
         private readonly IOrderUpdateValueService _orderUpdateValueService;
+        private readonly IOrderBonusService _orderBonusService;
 
         public OrderCreateAppService(IOrderCreateService orderCreateService,
                                         IClientExistsService clientExistsService,
@@ -30,7 +26,8 @@ namespace ChefDigitalAPI.Application.Order
                                         IAddressCreateService addressCreateService,
                                         IAddressExistsService addressExistsService,
                                         IOrderedItemCreateService orderedItemCreateService,
-                                        IOrderUpdateValueService orderUpdateValueService)
+                                        IOrderUpdateValueService orderUpdateValueService,
+                                        IOrderBonusService orderBonusService)
         {
             _orderCreateService = orderCreateService;
             _clientExistsService = clientExistsService;
@@ -39,48 +36,64 @@ namespace ChefDigitalAPI.Application.Order
             _addressExistsService = addressExistsService;
             _orderedItemCreateService = orderedItemCreateService;
             _orderUpdateValueService = orderUpdateValueService;
+            _orderBonusService = orderBonusService;
         }
 
         public async Task<bool> CreateAsync(OrderCreateDTO orderDTO)
         {
-            decimal total = 0;
-            Guid id;
+            Guid clientId;
+            Guid orderId = new Guid();
+            decimal subtotal = 0;
             ChefDigital.Entities.Entities.Client client = await _clientExistsService.Exists(orderDTO.FirstName, orderDTO.Surname, orderDTO.Telephone);
             ChefDigital.Entities.Entities.Client newClient;
-
 
             if (client == null)
             {
                 newClient = await _clientCreateService.CreateAsync(orderDTO.ToClient());
-
                 if (newClient != null)
                 {
                     await _addressCreateService.CreateAsync(newClient.Id, orderDTO.ToAddress());
                 }
 
-                id = newClient.Id;
+                clientId = newClient.Id;
             }
             else
             {
-                id = client.Id;
+                clientId = client.Id;
             }
 
-            bool addressExists = await _addressExistsService.IsAddressExists(id, orderDTO.Street, orderDTO.Number);
+            bool addressExists = await _addressExistsService.IsAddressExists(clientId, orderDTO.Street, orderDTO.Number);
 
             if (!addressExists)
             {
-                await _addressCreateService.CreateAsync(id, orderDTO.ToAddress());
+                await _addressCreateService.CreateAsync(clientId, orderDTO.ToAddress());
             }
 
-            var result = await _orderCreateService.CreateAsync(id);
 
-            if (result != null) 
+            if (orderDTO.OrderedItems != null)
             {
+                /*
+                   Programa de Fidelidade
+                
+                   Para se qualificar para o programa de fidelidade, um cliente deve realizar 5 compras nos últimos 90 dias, cada uma com um valor igual ou superior a R$20.
+                   
+                   Uma vez qualificado, o cliente terá direito a um desconto de 30% em sua próxima compra, desde que o valor da compra seja igual ou superior a R$20. No entanto, o desconto está limitado a no máximo R$45.
+                
+                   Observe que o desconto é de 30% do valor da compra ou R$45, o que for menor.
+                
+                   Resumo das condições:
+                   - 5 compras nos últimos 90 dias
+                   - Cada compra com valor igual ou superior a R$20
+                   - Desconto de 30%, limitado a R$45, na próxima compra de R$20 ou mais.
+                */
+
+
+
                 foreach (var item in orderDTO.OrderedItems)
                 {
-                    ChefDigital.Entities.Entities.OrderedItem newItem = new OrderedItem()
+                    ChefDigital.Entities.Entities.OrderedItem newItem = new()
                     {
-                        OrderId = result.Id,
+                        OrderId = orderId,
                         Item = item.Item,
                         UnitValue = item.UnitValue,
                         ItemQuantity = item.ItemQuantity
@@ -88,14 +101,24 @@ namespace ChefDigitalAPI.Application.Order
 
                     await _orderedItemCreateService.CreateAsync(newItem);
 
-                    total += (item.UnitValue *  item.ItemQuantity);
+                    subtotal += (item.UnitValue * item.ItemQuantity);
                 };
             }
 
-            await _orderUpdateValueService.UpdateAsync(result.Id, total);
+            decimal discount = await _orderBonusService.Bonus(clientId, subtotal);
+            decimal total = subtotal - discount;
 
+            ChefDigital.Entities.Entities.Order newOrder = new()
+            {
+                Id = orderId,
+                ClientId = clientId,
+                Subtotal = subtotal,
+                Discount = discount
+            };
+            newOrder.SetTotal(subtotal, discount);
+
+            var result = await _orderCreateService.CreateAsync(newOrder);
             return true;
-
         }
     }
 }

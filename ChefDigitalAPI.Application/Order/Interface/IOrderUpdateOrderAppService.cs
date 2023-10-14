@@ -8,6 +8,6 @@ namespace ChefDigitalAPI.Application.Order.Interface
 {
     public interface IOrderUpdateOrderAppService
     {
-        Task<ChefDigital.Entities.Entities.Order> UpdateOrderAsync(Guid id);
+        Task<ChefDigital.Entities.Entities.Order> UpdateStatusOrderAsync(Guid id);
     }
 }

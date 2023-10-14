@@ -87,6 +87,8 @@ builder.Services.AddScoped<IOrderUpdateOrderAppService, OrderUpdateOrderAppServi
 builder.Services.AddScoped<IOrderCreateService, OrderCreateService>();
 builder.Services.AddScoped<IOrderCancelService, OrderCancelService>();
 builder.Services.AddScoped<IOrderUpdateStatusService, OrderUpdateStatusService>();
+builder.Services.AddScoped<IOrderBonusService, OrderBonusService>();
+
 
 //Domain Service OrderedItem
 builder.Services.AddScoped<IOrderedItemCreateService, OrderedItemCreateService>();

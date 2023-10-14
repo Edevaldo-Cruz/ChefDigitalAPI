@@ -25,7 +25,11 @@ namespace ChefDigital.API.Controllers
         public async Task<IActionResult> Create([FromBody] OrderCreateDTO order)
         {
             var result = await _orderCreateAppService.CreateAsync(order);
-            return Ok("Pedido Realizado com sucesso.");
+
+            if (!result)
+                return BadRequest("Erro ao realizar o pedido");
+
+            return Ok("Pedido realizado com sucesso.");
         }
 
         [HttpPut("cancel-order/{id}")]
@@ -40,10 +44,10 @@ namespace ChefDigital.API.Controllers
         }
 
 
-        [HttpPut("update-order/{id}")]
-        public async Task<IActionResult> UpdateOrder(Guid id)
+        [HttpPut("update-status-order/{id}")]
+        public async Task<IActionResult> UpdateStatusOrder(Guid id)
         {
-            Entities.Entities.Order result = await _orderUpdateOrderAppService.UpdateOrderAsync(id);
+            Entities.Entities.Order result = await _orderUpdateOrderAppService.UpdateStatusOrderAsync(id);
 
             if (result.HasNotifications)
                 return BadRequest(result.Notitycoes);

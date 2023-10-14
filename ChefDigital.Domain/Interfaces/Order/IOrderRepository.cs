@@ -9,5 +9,6 @@ namespace ChefDigital.Domain.Interfaces
 {
     public interface IOrderRepository : IRepository<Entities.Entities.Order>
     {
+        Task<bool> CheckClientOrders(Guid clientId);
     }
 }
