@@ -10,7 +10,7 @@ namespace ChefDigital.Domain.Service.Message
         private string email = "email";
         private string password = "email";
 
-        public void SendMessage(OrderCreateDTO order)
+        public void SendMessage(OrderCreateDTO order, string textEmail)
         {
             try
             {
@@ -25,7 +25,16 @@ namespace ChefDigital.Domain.Service.Message
                 {
                     From = new MailAddress(email),
                     Subject = "Atualização do Status do Seu Pedido",
-                    Body = "Corpo do E-mail",
+                    Body = $@"Prezado Cliente,
+
+                            Espero que esta mensagem o encontre bem.
+                            {textEmail}
+                            
+                            Atenciosamente,
+
+                            Edevaldo Cruz
+                            Gerente Logistico
+                            ChefDigital",
                 };
 
                 mail.To.Add(order.Email);

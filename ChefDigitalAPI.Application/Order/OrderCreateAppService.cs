@@ -6,6 +6,7 @@ using ChefDigital.Domain.Interfaces.Order;
 using ChefDigital.Domain.Interfaces.OrderedItem;
 using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Enums;
 using ChefDigitalAPI.Application.Order.Interface;
 
 namespace ChefDigitalAPI.Application.Order
@@ -124,7 +125,8 @@ namespace ChefDigitalAPI.Application.Order
 
             if (result != null)
             {
-                _messageService.SendMessage(orderDTO);
+                string textEmail = ChefDigital.Entities.Enums.OrderStatusMessages.GetMessage(OrderStatusEnum.Processing);
+                _messageService.SendMessage(orderDTO, textEmail);
             }
 
             /*
