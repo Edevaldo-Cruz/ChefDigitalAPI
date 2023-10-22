@@ -6,7 +6,6 @@ namespace ChefDigital.Entities.DTO
 {
     public class OrderCreateDTO
     {
-        //public Guid ClientId { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
 
@@ -30,6 +29,8 @@ namespace ChefDigital.Entities.DTO
                 }
             }
         }
+
+        public string Email { get; set; }
 
         public string Street { get; set; }
         public int Number { get; set; }
@@ -60,6 +61,7 @@ namespace ChefDigital.Entities.DTO
                 FirstName = FirstName,
                 Surname = Surname,
                 Telephone = Telephone,
+                Email = Email
             };
             return client;
         }
@@ -76,16 +78,7 @@ namespace ChefDigital.Entities.DTO
             };
             return address;
         }
-
-        //public Order ToOrder()
-        //{
-        //    Order order = new Order()
-        //    {
-        //        ClientId = this.ClientId
-        //    };
-        //    return order;
-        //}
-
+       
         public List<OrderedItem> ToOrderedItem()
         {
             return OrderedItems?.Select(item => new OrderedItem(

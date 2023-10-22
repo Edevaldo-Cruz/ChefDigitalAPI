@@ -19,6 +19,7 @@ namespace ChefDigital.Entities.DTO.Client
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Telephone { get; set; }
+        public string Email { get; set; }
 
         public string Street { get; set; }
         public int Number { get; set; }
@@ -34,6 +35,7 @@ namespace ChefDigital.Entities.DTO.Client
                 FirstName = FirstName,
                 Surname = Surname,
                 Telephone = Telephone,
+                Email = Email,
                 Active = true,
             };
             return clientNew;

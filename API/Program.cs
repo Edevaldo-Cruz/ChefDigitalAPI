@@ -4,10 +4,12 @@ using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Interfaces.Address;
 using ChefDigital.Domain.Interfaces.Client;
 using ChefDigital.Domain.Interfaces.Generics;
+using ChefDigital.Domain.Interfaces.Message;
 using ChefDigital.Domain.Interfaces.Order;
 using ChefDigital.Domain.Interfaces.OrderedItem;
 using ChefDigital.Domain.Service.Address;
 using ChefDigital.Domain.Service.Client;
+using ChefDigital.Domain.Service.Message;
 using ChefDigital.Domain.Service.Order;
 using ChefDigital.Domain.Service.OrderedItem;
 using ChefDigital.Entities.Entities;
@@ -93,6 +95,10 @@ builder.Services.AddScoped<IOrderBonusService, OrderBonusService>();
 //Domain Service OrderedItem
 builder.Services.AddScoped<IOrderedItemCreateService, OrderedItemCreateService>();
 builder.Services.AddScoped<IOrderUpdateValueService, OrderUpdateValueService>();
+
+
+//Domain Service Message
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 
 

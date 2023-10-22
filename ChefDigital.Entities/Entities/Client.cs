@@ -6,26 +6,22 @@ namespace ChefDigital.Entities.Entities
 {
     public class Client : EntityBase
     {
+
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string Surname { get; set; }
+        [Required]
+        public string Telephone { get; set; }
+        [Required]
+        public string Email { get; set; }
+        public List<Address> Addresses { get; set; }
+
         public Client()
         {
             SetDataAlteracao(DateTime.MinValue);
             Active = true;
         }
-
-        [Required(ErrorMessage = "FirstName é obrigatório")]
-        [MaxLength(100, ErrorMessage = "FirstName deve ter no máximo 100 caracteres")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Surname é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Surname deve ter no máximo 100 caracteres")]
-        public string Surname { get; set; }
-
-        [Required(ErrorMessage = "Telephone é obrigatório")]
-        [MaxLength(20, ErrorMessage = "Telephone deve ter no máximo 20 caracteres")]
-        public string Telephone { get; set; }
-
-        public List<Address> Addresses { get; set; }
-
         public void SetActiveFalse()
         {
             Active = false;
@@ -55,7 +51,7 @@ namespace ChefDigital.Entities.Entities
                 Active = this.Active,
                 Addresses = this.Addresses
             };
-            return clientNew;            
+            return clientNew;
         }
 
     }
