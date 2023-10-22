@@ -9,6 +9,6 @@ namespace ChefDigital.Domain.Interfaces.Message
 {
     public interface IMessageService
     {
-        void SendMessage(Entities.DTO.OrderCreateDTO order, string text);
+        void SendMessage(Entities.DTO.OrderCreateNewClientDTO order, string text);
     }
 }

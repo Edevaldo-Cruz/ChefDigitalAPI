@@ -27,10 +27,10 @@ namespace ChefDigital.API.Controllers
         }
 
         [HttpPost("CreateOrderNewClient")]
-        public async Task<IActionResult> CreateOrderNewClient([FromBody] OrderCreateDTO order)
+        public async Task<IActionResult> CreateOrderNewClient([FromBody] OrderCreateNewClientDTO order)
         {
             var result = await _orderAppService
-                .CreateAsync(order);
+                .CreateOrderNewClientAsync(order);
 
             if (!result)
                 return BadRequest("Erro ao realizar o pedido");

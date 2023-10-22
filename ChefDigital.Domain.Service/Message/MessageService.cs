@@ -10,7 +10,7 @@ namespace ChefDigital.Domain.Service.Message
         private string email = "email";
         private string password = "password";
 
-        public void SendMessage(OrderCreateDTO order, string textEmail)
+        public void SendMessage(OrderCreateNewClientDTO order, string textEmail)
         {
             try
             {

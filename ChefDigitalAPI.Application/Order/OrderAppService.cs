@@ -14,6 +14,7 @@ namespace ChefDigitalAPI.Application.Order
     public class OrderAppService : IOrderAppService
     {
         private readonly IOrderCreateService _orderCreateService;
+        private readonly IClientRepository _clientRepository;
         private readonly IClientExistsService _clientExistsService;
         private readonly IClientCreateService _clientCreateService;
         private readonly IAddressCreateService _addressCreateService;
@@ -36,7 +37,8 @@ namespace ChefDigitalAPI.Application.Order
                                         IOrderBonusService orderBonusService,
                                         IMessageService messageService,
                                         IOrderUpdateStatusService orderUpdateStatusService,
-                                        IOrderCancelService orderCancelService)
+                                        IOrderCancelService orderCancelService,
+                                        IClientRepository clientRepository)
         {
             _orderCreateService = orderCreateService;
             _clientExistsService = clientExistsService;
@@ -49,9 +51,47 @@ namespace ChefDigitalAPI.Application.Order
             _messageService = messageService;
             _orderUpdateStatusService = orderUpdateStatusService;
             _orderCancelService = orderCancelService;
+            _clientRepository = clientRepository;
         }
 
+        /*
+                  Programa de Fidelidade
+
+                  Para se qualificar para o programa de fidelidade, um cliente deve realizar 5 compras nos últimos 90 dias, 
+                       cada uma com um valor igual ou superior a R$20.
+
+                  Uma vez qualificado, o cliente terá direito a um desconto de 30% em sua próxima compra, desde que o valor
+                       da compra seja igual ou superior a R$20. No entanto, o desconto está limitado a no máximo R$45.
+
+                  Observe que o desconto é de 30% do valor da compra ou R$45, o que for menor.
+
+                  Resumo das condições:
+                  - 5 compras nos últimos 90 dias
+                  - Cada compra com valor igual ou superior a R$20
+                  - Desconto de 30%, limitado a R$45, na próxima compra de R$20 ou mais.
+               */
+
         public async Task<bool> CreateAsync(OrderCreateDTO orderDTO)
+        {
+            Guid orderId = new Guid();
+            decimal subtotal = 0;
+            var client = await _clientRepository.GetEntityById(orderDTO.ClientId);
+
+            if (client == null)
+                return false;
+
+            if (orderDTO.OrderedItems != null)
+            {
+                subtotal = AddOrderedItems(orderId, orderDTO.OrderedItems);
+            }
+
+            var result = await CreateNewOrder(orderDTO.ClientId, orderId, subtotal);
+
+            return true;
+        }
+
+
+        public async Task<bool> CreateOrderNewClientAsync(OrderCreateNewClientDTO orderDTO)
         {
             Guid clientId;
             Guid orderId = new Guid();
@@ -81,44 +121,25 @@ namespace ChefDigitalAPI.Application.Order
                 await _addressCreateService.CreateAsync(clientId, orderDTO.ToAddress());
             }
 
-
             if (orderDTO.OrderedItems != null)
             {
-                /*
-                   Programa de Fidelidade
-                
-                   Para se qualificar para o programa de fidelidade, um cliente deve realizar 5 compras nos últimos 90 dias, 
-                        cada uma com um valor igual ou superior a R$20.
-                   
-                   Uma vez qualificado, o cliente terá direito a um desconto de 30% em sua próxima compra, desde que o valor
-                        da compra seja igual ou superior a R$20. No entanto, o desconto está limitado a no máximo R$45.
-                
-                   Observe que o desconto é de 30% do valor da compra ou R$45, o que for menor.
-                
-                   Resumo das condições:
-                   - 5 compras nos últimos 90 dias
-                   - Cada compra com valor igual ou superior a R$20
-                   - Desconto de 30%, limitado a R$45, na próxima compra de R$20 ou mais.
-                */
-
-                foreach (var item in orderDTO.OrderedItems)
-                {
-                    ChefDigital.Entities.Entities.OrderedItem newItem = new()
-                    {
-                        OrderId = orderId,
-                        Item = item.Item,
-                        UnitValue = item.UnitValue,
-                        ItemQuantity = item.ItemQuantity
-                    };
-
-                    await _orderedItemCreateService.CreateAsync(newItem);
-
-                    subtotal += (item.UnitValue * item.ItemQuantity);
-                };
+                subtotal = AddOrderedItems(orderId, orderDTO.OrderedItems);
             }
 
+            var result = await CreateNewOrder(clientId, orderId, subtotal);
+            if (result != null)
+            {
+                string textEmail = ChefDigital.Entities.Enums.OrderStatusMessages.GetMessage(OrderStatusEnum.Processing);
+                _messageService.SendMessage(orderDTO, textEmail);
+            }
+
+            return true;
+        }
+
+        private async Task<ChefDigital.Entities.Entities.Order> CreateNewOrder(Guid clientId, Guid orderId, decimal subtotal)
+        {
             decimal discount = await _orderBonusService.Bonus(clientId, subtotal);
-            
+
             ChefDigital.Entities.Entities.Order newOrder = new()
             {
                 Id = orderId,
@@ -128,26 +149,8 @@ namespace ChefDigitalAPI.Application.Order
             };
             newOrder.SetTotal(subtotal, discount);
 
-            var result = await _orderCreateService.CreateAsync(newOrder);
-
-            if (result != null)
-            {
-                string textEmail = ChefDigital.Entities.Enums.OrderStatusMessages.GetMessage(OrderStatusEnum.Processing);
-                _messageService.SendMessage(orderDTO, textEmail);
-            }
-
-            /*
-             CRIAR METODOS PARA ENVIAR MENSAGENS:
-                1 - PEDIDO RECEBIDO
-                2 - PROGRAMA DE FIDELIDADE
-                3 - PEDIDO SAIU PARA ENTREGA
-                =======================================
-            CRIAR UM METODO QUE RECEBA UM INT PARA ENVIAR AS MENSGEM CONFORME O STATUS DO PEDIO
-                
-                
-             */
-
-            return true;
+            var reusult = await _orderCreateService.CreateAsync(newOrder);
+            return reusult;
         }
 
         public async Task<ChefDigital.Entities.Entities.Order> UpdateStatusOrderAsync(Guid id)
@@ -161,6 +164,28 @@ namespace ChefDigitalAPI.Application.Order
         {
             var result = await _orderCancelService.CancelOrderAsync(id);
             return result;
+        }
+
+        private decimal AddOrderedItems(Guid orderId, List<OrderedItemDTO> orderedItems)
+        {
+            decimal subtotal = 0;
+
+            foreach (var item in orderedItems)
+            {
+                ChefDigital.Entities.Entities.OrderedItem newItem = new()
+                {
+                    OrderId = orderId,
+                    Item = item.Item,
+                    UnitValue = item.UnitValue,
+                    ItemQuantity = item.ItemQuantity
+                };
+
+                _orderedItemCreateService.CreateAsync(newItem);
+
+                subtotal += (item.UnitValue * item.ItemQuantity);
+            }
+
+            return subtotal;
         }
     }
 }
