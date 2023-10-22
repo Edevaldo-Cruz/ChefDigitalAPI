@@ -8,7 +8,7 @@ namespace ChefDigital.Domain.Service.Message
     public class MessageService : IMessageService
     {
         private string email = "email";
-        private string password = "email";
+        private string password = "password";
 
         public void SendMessage(OrderCreateDTO order, string textEmail)
         {

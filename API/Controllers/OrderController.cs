@@ -8,23 +8,29 @@ namespace ChefDigital.API.Controllers
     [ApiController]
     public class OrderController : Controller
     {
-        private readonly IOrderCreateAppService _orderCreateAppService;
-        private readonly IOrderCancelAppService _orderCancelOrderAppService;
-        private readonly IOrderUpdateOrderAppService _orderUpdateOrderAppService;
+        private readonly IOrderAppService _orderAppService;
 
-        public OrderController(IOrderCreateAppService orderCreateAppService,
-                                IOrderCancelAppService orderCancelOrderAppService,
-                                IOrderUpdateOrderAppService orderUpdateOrderAppService)
+        public OrderController(IOrderAppService orderAppService)
         {
-            _orderCreateAppService = orderCreateAppService;
-            _orderCancelOrderAppService = orderCancelOrderAppService;
-            _orderUpdateOrderAppService = orderUpdateOrderAppService;
+            _orderAppService = orderAppService;
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] OrderCreateDTO order)
         {
-            var result = await _orderCreateAppService.CreateAsync(order);
+            var result = await _orderAppService.CreateAsync(order);
+
+            if (!result)
+                return BadRequest("Erro ao realizar o pedido");
+
+            return Ok("Pedido realizado com sucesso.");
+        }
+
+        [HttpPost("CreateOrderNewClient")]
+        public async Task<IActionResult> CreateOrderNewClient([FromBody] OrderCreateDTO order)
+        {
+            var result = await _orderAppService
+                .CreateAsync(order);
 
             if (!result)
                 return BadRequest("Erro ao realizar o pedido");
@@ -35,7 +41,7 @@ namespace ChefDigital.API.Controllers
         [HttpPut("cancel-order/{id}")]
         public async Task<IActionResult> CancelOrder(Guid id)
         {
-            Entities.Entities.Order result = await _orderCancelOrderAppService.CancelOrderAsync(id);
+            Entities.Entities.Order result = await _orderAppService.CancelOrderAsync(id);
 
             if (result.HasNotifications)
                 return BadRequest(result.Notitycoes);
@@ -47,7 +53,7 @@ namespace ChefDigital.API.Controllers
         [HttpPut("update-status-order/{id}")]
         public async Task<IActionResult> UpdateStatusOrder(Guid id)
         {
-            Entities.Entities.Order result = await _orderUpdateOrderAppService.UpdateStatusOrderAsync(id);
+            Entities.Entities.Order result = await _orderAppService.UpdateStatusOrderAsync(id);
 
             if (result.HasNotifications)
                 return BadRequest(result.Notitycoes);

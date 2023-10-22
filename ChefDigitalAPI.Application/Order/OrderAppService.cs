@@ -11,7 +11,7 @@ using ChefDigitalAPI.Application.Order.Interface;
 
 namespace ChefDigitalAPI.Application.Order
 {
-    public class OrderCreateAppService : IOrderCreateAppService
+    public class OrderAppService : IOrderAppService
     {
         private readonly IOrderCreateService _orderCreateService;
         private readonly IClientExistsService _clientExistsService;
@@ -23,7 +23,10 @@ namespace ChefDigitalAPI.Application.Order
         private readonly IOrderBonusService _orderBonusService;
         private readonly IMessageService _messageService;
 
-        public OrderCreateAppService(IOrderCreateService orderCreateService,
+        private readonly IOrderUpdateStatusService _orderUpdateStatusService;
+        private readonly IOrderCancelService _orderCancelService;
+
+        public OrderAppService(IOrderCreateService orderCreateService,
                                         IClientExistsService clientExistsService,
                                         IClientCreateService clientCreateService,
                                         IAddressCreateService addressCreateService,
@@ -31,7 +34,9 @@ namespace ChefDigitalAPI.Application.Order
                                         IOrderedItemCreateService orderedItemCreateService,
                                         IOrderUpdateValueService orderUpdateValueService,
                                         IOrderBonusService orderBonusService,
-                                        IMessageService messageService)
+                                        IMessageService messageService,
+                                        IOrderUpdateStatusService orderUpdateStatusService,
+                                        IOrderCancelService orderCancelService)
         {
             _orderCreateService = orderCreateService;
             _clientExistsService = clientExistsService;
@@ -42,6 +47,8 @@ namespace ChefDigitalAPI.Application.Order
             _orderUpdateValueService = orderUpdateValueService;
             _orderBonusService = orderBonusService;
             _messageService = messageService;
+            _orderUpdateStatusService = orderUpdateStatusService;
+            _orderCancelService = orderCancelService;
         }
 
         public async Task<bool> CreateAsync(OrderCreateDTO orderDTO)
@@ -141,6 +148,19 @@ namespace ChefDigitalAPI.Application.Order
              */
 
             return true;
+        }
+
+        public async Task<ChefDigital.Entities.Entities.Order> UpdateStatusOrderAsync(Guid id)
+        {
+            var result = await _orderUpdateStatusService.UpdateOrderStatusAsync(id);
+
+            return result;
+        }
+
+        public async Task<ChefDigital.Entities.Entities.Order> CancelOrderAsync(Guid id)
+        {
+            var result = await _orderCancelService.CancelOrderAsync(id);
+            return result;
         }
     }
 }

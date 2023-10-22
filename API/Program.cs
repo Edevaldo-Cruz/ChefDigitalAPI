@@ -81,9 +81,7 @@ builder.Services.AddScoped<IAddressCreateService, AddressCreateService>();
 builder.Services.AddScoped<IAddressExistsService, AddressExistsService>();
 
 //Application Order
-builder.Services.AddScoped<IOrderCreateAppService, OrderCreateAppService>();
-builder.Services.AddScoped<IOrderCancelAppService, OrderCancelAppService>();
-builder.Services.AddScoped<IOrderUpdateOrderAppService, OrderUpdateOrderAppService>();
+builder.Services.AddScoped<IOrderAppService, OrderAppService>();
 
 //Domain Service Order
 builder.Services.AddScoped<IOrderCreateService, OrderCreateService>();
