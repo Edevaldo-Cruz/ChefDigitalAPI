@@ -11,26 +11,17 @@ namespace ChefDigital.API.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private readonly IClientCreateAppService _clientAppServiceCreate;
-        private readonly IClientUpdateAppService _clientUpdateAppService;
-        private readonly IClientListAppService _clientListAppService;
-        private readonly IClientDisableAppService _clientDisableAppService;
+        private readonly IClientAppService _clientAppService;
 
-        public ClientController(IClientCreateAppService clientAppServiceCreate,
-                                    IClientUpdateAppService clientUpdateAppService,
-                                    IClientListAppService clientListAppService,
-                                    IClientDisableAppService clientDisableAppService)
+        public ClientController(IClientAppService clientAppServiceCreate)
         {
-            _clientAppServiceCreate = clientAppServiceCreate;
-            _clientUpdateAppService = clientUpdateAppService;
-            _clientListAppService = clientListAppService;
-            _clientDisableAppService = clientDisableAppService;
+            _clientAppService = clientAppServiceCreate;
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] ClientCreateDTO client)
         {
-            Entities.Entities.Client newClient = await _clientAppServiceCreate.Create(client);
+            Entities.Entities.Client newClient = await _clientAppService.Create(client);
 
             if (newClient.HasNotifications)
                 return BadRequest(newClient.Notitycoes);
@@ -42,7 +33,7 @@ namespace ChefDigital.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] ClientEditDTO client)
         {
-            var clientEdit = await _clientUpdateAppService.EditAsync(id, client);
+            var clientEdit = await _clientAppService.EditAsync(id, client);
 
             if (clientEdit.HasNotifications)
                 return BadRequest(clientEdit.Notitycoes);
@@ -54,7 +45,7 @@ namespace ChefDigital.API.Controllers
         [HttpGet("")]
         public async Task<List<ClientListDTO>> List()
         {
-            var clients = await _clientListAppService.ListAsync();
+            var clients = await _clientAppService.ListAsync();
             return clients;
         }
 
@@ -62,7 +53,7 @@ namespace ChefDigital.API.Controllers
         public async Task<IActionResult> DisableClient(Guid id)
         {
             Client newClient = new Client();
-            newClient = await _clientDisableAppService.DisableAsync(id);
+            newClient = await _clientAppService.DisableAsync(id);
 
             if (newClient.HasNotifications)
                 return BadRequest(newClient.Notitycoes);

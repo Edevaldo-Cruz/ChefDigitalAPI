@@ -53,10 +53,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderedItemRepository, OrderedItemRepository>();
 
 //Application CLient
-builder.Services.AddScoped<IClientCreateAppService, ClientCreateAppService>();
-builder.Services.AddScoped<IClientUpdateAppService, ClientUpdateAppService>();
-builder.Services.AddScoped<IClientListAppService, ClientListAppService>();
-builder.Services.AddScoped<IClientDisableAppService, ClientDisableAppService>();
+builder.Services.AddScoped<IClientAppService, ClientAppService>();
 
 //Domain Service Client
 builder.Services.AddScoped<IClientCreateService, ClientCreateService>();
@@ -66,11 +63,7 @@ builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 builder.Services.AddScoped<IClientExistsService, ClientExistsService>();
 
 //Application Address
-builder.Services.AddScoped<IAddressEditAppService, AddressEditAppService>();
-builder.Services.AddScoped<IAddressListAppService, AddressListAppService>();
-builder.Services.AddScoped<IAddressListByIdClientAppService, AddressListByIdClientAppService>();
-builder.Services.AddScoped<IAddressDisableAppService, AddressDisableAppService>();
-
+builder.Services.AddScoped<IAddressAppService, AddressAppService>();
 
 //Domain Service Address
 builder.Services.AddScoped<IAddressEditService, AddressEditService>();
@@ -89,18 +82,12 @@ builder.Services.AddScoped<IOrderCancelService, OrderCancelService>();
 builder.Services.AddScoped<IOrderUpdateStatusService, OrderUpdateStatusService>();
 builder.Services.AddScoped<IOrderBonusService, OrderBonusService>();
 
-
 //Domain Service OrderedItem
 builder.Services.AddScoped<IOrderedItemCreateService, OrderedItemCreateService>();
 builder.Services.AddScoped<IOrderUpdateValueService, OrderUpdateValueService>();
 
-
 //Domain Service Message
 builder.Services.AddScoped<IMessageService, MessageService>();
-
-
-
-
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

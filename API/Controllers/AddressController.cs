@@ -10,26 +10,17 @@ namespace ChefDigital.API.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly IAddressEditAppService _addressEditAppService;
-        private readonly IAddressListAppService _addressListAppService;
-        private readonly IAddressListByIdClientAppService _addressListByIdClient;
-        private readonly IAddressDisableAppService _addressDisableAddresAppService;
+        private readonly IAddressAppService _addressAppService;
 
-        public AddressController(IAddressEditAppService addressEditAppService,
-                                    IAddressListAppService addressListAppService,
-                                    IAddressListByIdClientAppService addressListByIdClient,
-                                    IAddressDisableAppService addressDisableAddresAppService)
+        public AddressController(IAddressAppService addressAppService)
         {
-            _addressEditAppService = addressEditAppService;
-            _addressListAppService = addressListAppService;
-            _addressListByIdClient = addressListByIdClient;
-            _addressDisableAddresAppService = addressDisableAddresAppService;
+            _addressAppService = addressAppService;
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] AddressEditDTO newAddress)
         {
-            var addressEdit = await _addressEditAppService.EditAsync(id, newAddress);
+            var addressEdit = await _addressAppService.EditAsync(id, newAddress);
             if (addressEdit.HasNotifications)
                 return BadRequest(addressEdit.Notitycoes);
 
@@ -40,21 +31,21 @@ namespace ChefDigital.API.Controllers
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
-            List<Entities.Entities.Address> resultados = await _addressListAppService.ListAsync();
+            List<Entities.Entities.Address> resultados = await _addressAppService.ListAsync();
             return Ok(resultados);
         }
 
         [HttpGet("{idClient}")]
         public async Task<IActionResult> ListByIdClient(Guid idClient)
         {
-            List<Entities.Entities.Address> list = await _addressListByIdClient.ListAsync(idClient);
+            List<Entities.Entities.Address> list = await _addressAppService.ListAsync(idClient);
             return Ok(list);
         }
 
         [HttpPut("disable/{id}")]
         public async Task<IActionResult> DisableAddress(Guid id)
         {
-            var address = await _addressDisableAddresAppService.DisableAsync(id);
+            var address = await _addressAppService.DisableAsync(id);
             return Ok(address);
 
         }
