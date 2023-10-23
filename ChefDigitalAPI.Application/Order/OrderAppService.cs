@@ -164,6 +164,16 @@ namespace ChefDigitalAPI.Application.Order
         {
             var result = await _orderUpdateStatusService.UpdateOrderStatusAsync(id);
 
+            if (result == null)
+                return null;
+
+            OrderStatusEnum status = result.Status;
+            string textEmail = ChefDigital.Entities.Enums.OrderStatusHelper.GetMessage(status);
+
+            var client = await _clientRepository.GetEntityById(result.ClientId);
+
+            _messageService.SendMessage(client.Email, textEmail);
+
             return result;
         }
 
