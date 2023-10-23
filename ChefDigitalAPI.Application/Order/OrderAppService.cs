@@ -73,19 +73,24 @@ namespace ChefDigitalAPI.Application.Order
 
         public async Task<bool> CreateAsync(OrderCreateDTO orderDTO)
         {
-            Guid orderId = new Guid();
+            Guid orderId = Guid.NewGuid();
             decimal subtotal = 0;
             var client = await _clientRepository.GetEntityById(orderDTO.ClientId);
 
             if (client == null)
                 return false;
 
+            var newOrder = await CreateNewOrder(orderDTO.ClientId, orderId, subtotal);
+
             if (orderDTO.OrderedItems != null)
             {
-                subtotal = AddOrderedItems(orderId, orderDTO.OrderedItems);
+                subtotal = await AddOrderedItems(newOrder.Id, orderDTO.OrderedItems);
             }
 
-            var result = await CreateNewOrder(orderDTO.ClientId, orderId, subtotal);
+            await _orderUpdateValueService.UpdateAsync(newOrder.Id, subtotal);
+
+            string textEmail = ChefDigital.Entities.Enums.OrderStatusHelper.GetMessage(OrderStatusEnum.Processing);
+            _messageService.SendMessage(client.Email, textEmail);
 
             return true;
         }
@@ -94,7 +99,7 @@ namespace ChefDigitalAPI.Application.Order
         public async Task<bool> CreateOrderNewClientAsync(OrderCreateNewClientDTO orderDTO)
         {
             Guid clientId;
-            Guid orderId = new Guid();
+            Guid orderId = Guid.NewGuid();
             decimal subtotal = 0;
             ChefDigital.Entities.Entities.Client client = await _clientExistsService.Exists(orderDTO.FirstName, orderDTO.Surname, orderDTO.Telephone);
             ChefDigital.Entities.Entities.Client newClient;
@@ -121,16 +126,18 @@ namespace ChefDigitalAPI.Application.Order
                 await _addressCreateService.CreateAsync(clientId, orderDTO.ToAddress());
             }
 
+            var result = await CreateNewOrder(clientId, orderId, subtotal);
             if (orderDTO.OrderedItems != null)
             {
-                subtotal = AddOrderedItems(orderId, orderDTO.OrderedItems);
+                subtotal = await AddOrderedItems(orderId, orderDTO.OrderedItems);
             }
 
-            var result = await CreateNewOrder(clientId, orderId, subtotal);
+            await _orderUpdateValueService.UpdateAsync(orderId, subtotal);
+
             if (result != null)
             {
-                string textEmail = ChefDigital.Entities.Enums.OrderStatusMessages.GetMessage(OrderStatusEnum.Processing);
-                _messageService.SendMessage(orderDTO, textEmail);
+                string textEmail = ChefDigital.Entities.Enums.OrderStatusHelper.GetMessage(OrderStatusEnum.Processing);
+                _messageService.SendMessage(orderDTO.Email, textEmail);
             }
 
             return true;
@@ -166,7 +173,7 @@ namespace ChefDigitalAPI.Application.Order
             return result;
         }
 
-        private decimal AddOrderedItems(Guid orderId, List<OrderedItemDTO> orderedItems)
+        private async Task<decimal> AddOrderedItems(Guid orderId, List<OrderedItemDTO> orderedItems)
         {
             decimal subtotal = 0;
 
@@ -180,7 +187,7 @@ namespace ChefDigitalAPI.Application.Order
                     ItemQuantity = item.ItemQuantity
                 };
 
-                _orderedItemCreateService.CreateAsync(newItem);
+                bool save = await _orderedItemCreateService.CreateAsync(newItem);
 
                 subtotal += (item.UnitValue * item.ItemQuantity);
             }

@@ -11,7 +11,7 @@ namespace ChefDigital.Entities.Enums
         Sent = 4,
     }
 
-    public static class OrderStatusMessages
+    public static class OrderStatusHelper
     {
         public static string GetMessage(OrderStatusEnum status)
         {

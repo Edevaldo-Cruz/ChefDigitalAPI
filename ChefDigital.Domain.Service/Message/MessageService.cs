@@ -10,7 +10,7 @@ namespace ChefDigital.Domain.Service.Message
         private string email = "email";
         private string password = "password";
 
-        public void SendMessage(OrderCreateNewClientDTO order, string textEmail)
+        public void SendMessage(string email, string textEmail)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace ChefDigital.Domain.Service.Message
                             ChefDigital",
                 };
 
-                mail.To.Add(order.Email);
+                mail.To.Add(email);
 
                 client.Send(mail);
             }

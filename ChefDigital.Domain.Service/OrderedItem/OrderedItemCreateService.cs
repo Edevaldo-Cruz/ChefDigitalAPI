@@ -13,16 +13,16 @@ namespace ChefDigital.Domain.Service.OrderedItem
             _repository = repository;
         }
 
-        public Task<bool> CreateAsync(Entities.Entities.OrderedItem orderedItem)
+        public async Task<bool> CreateAsync(Entities.Entities.OrderedItem orderedItem)
         {
-            var result = _repository.Add(orderedItem);
+            var result = await _repository.Add(orderedItem);
 
             if (result == null)
             {
-                return Task.FromResult(false);
+                return false;
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
     }

@@ -13,10 +13,10 @@ namespace ChefDigitalAPI.Application.Client
         private readonly IClientListService _clientListService;
         private readonly IClientUpdateService _clientUpdateService;
 
-        public ClientAppService(IClientCreateService clientCreateService, 
-                                    IAddressCreateService addressCreateService, 
-                                    IClientDisableService clientDisableService, 
-                                    IClientListService clientListService, 
+        public ClientAppService(IClientCreateService clientCreateService,
+                                    IAddressCreateService addressCreateService,
+                                    IClientDisableService clientDisableService,
+                                    IClientListService clientListService,
                                     IClientUpdateService clientUpdateService)
         {
             _clientCreateService = clientCreateService;

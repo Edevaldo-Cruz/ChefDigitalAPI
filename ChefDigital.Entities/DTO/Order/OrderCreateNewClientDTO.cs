@@ -79,15 +79,15 @@ namespace ChefDigital.Entities.DTO
             return address;
         }
        
-        public List<OrderedItem> ToOrderedItem()
-        {
-            return OrderedItems?.Select(item => new OrderedItem(
-                item.OrderId,
-                item.Item,
-                item.UnitValue,
-                item.ItemQuantity
-            )).ToList();
-        }
+        //public List<OrderedItem> ToOrderedItem()
+        //{
+        //    return OrderedItems?.Select(item => new OrderedItem(
+        //        item.OrderId,
+        //        item.Item,
+        //        item.UnitValue,
+        //        item.ItemQuantity
+        //    )).ToList();
+        //}
 
     }
 }
