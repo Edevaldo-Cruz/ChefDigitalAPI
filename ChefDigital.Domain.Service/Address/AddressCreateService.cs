@@ -1,5 +1,7 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Entities.Generics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,22 @@ namespace ChefDigital.Domain.Service.Address
 
         public async Task<Entities.Entities.Address> CreateAsync(Guid ClientId, Entities.Entities.Address newClient)
         {
+            if (string.IsNullOrWhiteSpace(newClient.Street) ||
+                    string.IsNullOrWhiteSpace(newClient.City) ||
+                    newClient.Number <= 0 ||
+                    string.IsNullOrWhiteSpace(newClient.Neighborhood) ||
+                    string.IsNullOrWhiteSpace(newClient.ZipCode))
+            {
+                Notification notification = new();
+                notification.PropertyName = "Address";
+                notification.Message = "Preenchas todos os campos";
+
+                Entities.Entities.Address incompleteAddress = new();
+                incompleteAddress.Notitycoes.Add(notification);
+
+                return incompleteAddress;
+            }
+
             Entities.Entities.Address newAddress = new Entities.Entities.Address();
             newAddress.ClientId = ClientId;
             newAddress.Street = newClient.Street;
