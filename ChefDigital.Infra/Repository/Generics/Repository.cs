@@ -19,7 +19,7 @@ namespace ChefDigital.Infra.Repository.Generics
             _optionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public async Task<T> Add(T Objeto)
+        public virtual async Task<T> Add(T Objeto)
         {
             using (var data = new ContextBase(_optionsBuilder))
             {
