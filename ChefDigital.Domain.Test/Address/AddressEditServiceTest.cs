@@ -3,6 +3,7 @@ using ChefDigital.Domain.Service.Address;
 using Moq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace ChefDigital.Domain.Service.Test.Address
@@ -13,10 +14,11 @@ namespace ChefDigital.Domain.Service.Test.Address
         public async Task EditAsync_MustEditAddress_WhenCalled()
         {
             //Arrange
-            var client = new ChefDigital.Entities.Entities.Client{ Id = Guid.NewGuid() };
+            Guid id = Guid.NewGuid();
+            var client = new ChefDigital.Entities.Entities.Client { Id = Guid.NewGuid() };
             var address = new ChefDigital.Entities.Entities.Address
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 ClientId = client.Id,
                 Street = "Rua Teste",
                 City = "Cidade Teste",
@@ -33,10 +35,6 @@ namespace ChefDigital.Domain.Service.Test.Address
 
             var clientRepositoryMock = new Mock<IClientRepository>();
             clientRepositoryMock.Setup(repo => repo
-                .GetEntityById(It.IsAny<Guid>()))
-                .ReturnsAsync(client);
-
-            clientRepositoryMock.Setup(repo => repo
                 .ExistsAsync(It.IsAny<Expression<Func<Entities.Entities.Client, bool>>>()))
                 .ReturnsAsync(true);
 
@@ -47,7 +45,7 @@ namespace ChefDigital.Domain.Service.Test.Address
             var addessEditService = new AddressEditService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             //Act
-            var result = await addessEditService.EditAsync(client.Id, address);
+            var result = await addessEditService.EditAsync(id, address);
 
             //Assert
             Assert.NotNull(result);
@@ -61,33 +59,93 @@ namespace ChefDigital.Domain.Service.Test.Address
 
         }
 
-        //[Fact]
-        //public async Task EditAsync_MustTakeNotificationOfAddressNotFound() 
-        //{
-        //    //Arrange
-        //    var client = new Entities.Entities.Client { Id = Guid.NewGuid() };
-        //    var address = new Entities.Entities.Address
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        ClientId = client.Id,
-        //        Street = "Rua Teste",
-        //        City = "Cidade Teste",
-        //        Number = 123,
-        //        Neighborhood = "Bairro Teste",
-        //        ZipCode = "12345-678"
-        //    };
-        //    address.SetDataAlteracao(DateTime.Now);
+        [Fact]
+        public async Task EditAsync_MustTakeNotificationOfAddressNotFound()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            var client = new Entities.Entities.Client { Id = Guid.NewGuid() };
+            var address = new Entities.Entities.Address
+            {
+                Id = id,
+                ClientId = client.Id,
+                Street = "Rua Teste",
+                City = "Cidade Teste",
+                Number = 123,
+                Neighborhood = "Bairro Teste",
+                ZipCode = "12345-678"
+            };
+            address.SetDataAlteracao(DateTime.Now);
 
-        //    var addressRepositoryMock = new Mock<IAddressRepository>();
-        //    addressRepositoryMock.Setup(repo => repo
-        //    .GetEntityById())
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+           
+            var clientRepositoryMock = new Mock<IClientRepository>();
+            clientRepositoryMock.Setup(repo => repo
+                .ExistsAsync(It.IsAny<Expression<Func<Entities.Entities.Client, bool>>>()))
+                .ReturnsAsync(true);
 
-        //    //Act
+            addressRepositoryMock.Setup(repo => repo
+                .Edit(It.IsAny<Entities.Entities.Address>()))
+                .ReturnsAsync(address);
 
-        //    //Assert
-        //    Assert.NotNull(result);
-        //    Assert.Contains(reult.Notif..., "O endereço não foi encontrado.");
-        //}
+            var addessEditService = new AddressEditService(addressRepositoryMock.Object, clientRepositoryMock.Object);
+
+            //Act
+            var result = addessEditService.EditAsync(id, address);
+
+            //Assert
+            Assert.NotNull(result.Result.Notitycoes);
+            Assert.Contains("O endereço não foi encontrado.", result.Result.Notitycoes.Select(n => n.Message));
+            Assert.Null(result.Result.Street);
+            Assert.Null(result.Result.City);
+            Assert.Equal(0, result.Result.Number);
+            Assert.Null(result.Result.Neighborhood);
+            Assert.Null(result.Result.ZipCode);
+        }
+
+        [Fact]
+        public async Task EditAsync_MustTakeNotificationOfClentNotFound()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            var client = new Entities.Entities.Client { Id = Guid.NewGuid() };
+            var address = new Entities.Entities.Address
+            {
+                Id = id,
+                ClientId = client.Id,
+                Street = "Rua Teste",
+                City = "Cidade Teste",
+                Number = 123,
+                Neighborhood = "Bairro Teste",
+                ZipCode = "12345-678"
+            };
+            address.SetDataAlteracao(DateTime.Now);
+
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            addressRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(address);
+
+            var clientRepositoryMock = new Mock<IClientRepository>();
+
+            addressRepositoryMock.Setup(repo => repo
+                .Edit(It.IsAny<Entities.Entities.Address>()))
+                .ReturnsAsync(address);
+
+            var addessEditService = new AddressEditService(addressRepositoryMock.Object, clientRepositoryMock.Object);
+
+            //Act
+            var result = addessEditService.EditAsync(id, address);
+
+            //Assert
+            Assert.NotNull(result.Result.Notitycoes);
+            Assert.Contains("O cliente não foi encontrado.", result.Result.Notitycoes.Select(n => n.Message));
+            Assert.Null(result.Result.Street);
+            Assert.Null(result.Result.City);
+            Assert.Equal(0, result.Result.Number);
+            Assert.Null(result.Result.Neighborhood);
+            Assert.Null(result.Result.ZipCode);
+        }
     }
 }
 
