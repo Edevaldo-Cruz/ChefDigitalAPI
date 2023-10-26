@@ -65,7 +65,7 @@ namespace ChefDigital.Infra.Repository.Generics
             return Objeto;
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> condition)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> condition)
         {
             using (var data = new ContextBase(_optionsBuilder))
             {

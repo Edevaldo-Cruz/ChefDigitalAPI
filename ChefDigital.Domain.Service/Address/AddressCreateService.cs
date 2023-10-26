@@ -27,13 +27,14 @@ namespace ChefDigital.Domain.Service.Address
                     string.IsNullOrWhiteSpace(newClient.Neighborhood) ||
                     string.IsNullOrWhiteSpace(newClient.ZipCode))
             {
-                Notification notification = new();
-                notification.PropertyName = "Address";
-                notification.Message = "Preenchas todos os campos";
-
                 Entities.Entities.Address incompleteAddress = new();
-                incompleteAddress.Notitycoes.Add(notification);
+                Notification notification = new()
+                {
+                    PropertyName = "Address",
+                    Message = "Preencha todos os campos do endereço."
+                };
 
+                incompleteAddress.Notitycoes.Add(notification);
                 return incompleteAddress;
             }
 
