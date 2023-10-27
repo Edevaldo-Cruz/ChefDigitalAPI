@@ -33,6 +33,7 @@ namespace ChefDigital.Domain.Service.Address
                     PropertyName = "Address"
                 };
                 addressEmpty.Notitycoes.Add(notification);
+                return addressEmpty;
             }
 
             addressBank.Active = false;
