@@ -1,6 +1,13 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Service.Address;
+using ChefDigital.Entities.Entities;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Service.Test.Address
 {
@@ -60,7 +67,7 @@ namespace ChefDigital.Domain.Service.Test.Address
             address.SetDataAlteracao(DateTime.Now);
 
             var addressRepository = new Mock<IAddressRepository>();
-
+            
             var addressService = new AddressDisableService(addressRepository.Object);
 
             //Act
