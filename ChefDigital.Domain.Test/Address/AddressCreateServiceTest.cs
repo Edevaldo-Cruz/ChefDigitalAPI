@@ -55,7 +55,6 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                         addr.ZipCode == newAddress.ZipCode)), Times.Once);
         }
 
-
         [Fact]
         [Trait("Description", "Verifica se o método CreateAsync retorna um endereço incompleto com notificação quando campos obrigatórios estão ausentes.")]
         public async Task CreateAsync_ShouldReturnIncompleteAddress_WhenFieldsAreMissing()

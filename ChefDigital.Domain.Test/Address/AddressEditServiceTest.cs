@@ -11,6 +11,7 @@ namespace ChefDigital.Domain.Service.Test.Address
     public class AddressEditServiceTest
     {
         [Fact]
+        [Trait("Description", "Teste unitário para garantir que o método EditAsync possa editar um endereço quando chamado.")]
         public async Task EditAsync_MustEditAddress_WhenCalled()
         {
             //Arrange
@@ -60,6 +61,7 @@ namespace ChefDigital.Domain.Service.Test.Address
         }
 
         [Fact]
+        [Trait("Description", "Teste unitário para garantir que o método EditAsync deve notificar quando um endereço não é encontrado.")]
         public async Task EditAsync_MustTakeNotificationOfAddressNotFound()
         {
             //Arrange
@@ -104,6 +106,7 @@ namespace ChefDigital.Domain.Service.Test.Address
         }
 
         [Fact]
+        [Trait("Description", "Teste unitário para garantir que o método EditAsync deve notificar quando um cliente não é encontrado.")]
         public async Task EditAsync_MustTakeNotificationOfClentNotFound()
         {
             //Arrange
