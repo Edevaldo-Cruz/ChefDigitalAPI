@@ -12,6 +12,7 @@ namespace ChefDigital.Domain.Service.Test.Address
     public class AddressListServiceTest
     {
         [Fact]
+        [Trait("Description", "Teste unitário para verificar se o método ListAsync retorna uma lista de endereços quando chamado.")]
         public async Task ListAsync_MustReturnAddressList_WhenCalled()
         {
             //Arrange

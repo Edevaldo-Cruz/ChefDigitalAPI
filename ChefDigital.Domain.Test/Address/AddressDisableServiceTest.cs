@@ -60,7 +60,6 @@ namespace ChefDigital.Domain.Service.Test.Address
             address.SetDataAlteracao(DateTime.Now);
 
             var addressRepository = new Mock<IAddressRepository>();
-
             var addressService = new AddressDisableService(addressRepository.Object);
 
             //Act
