@@ -19,37 +19,73 @@ namespace ChefDigital.Domain.Service.Address
             _addressRepository = addressRepository;
         }
 
-
-        //Alterar
-        public async Task<Entities.Entities.Address> CreateAsync(Guid ClientId, Entities.Entities.Address newClient)
+        public async Task<Entities.Entities.Address> CreateAsync(Guid ClientId, Entities.Entities.Address address)
         {
-            if (string.IsNullOrWhiteSpace(newClient.Street) ||
-                    string.IsNullOrWhiteSpace(newClient.City) ||
-                    newClient.Number <= 0 ||
-                    string.IsNullOrWhiteSpace(newClient.Neighborhood) ||
-                    string.IsNullOrWhiteSpace(newClient.ZipCode))
+            if (ValidateAddress(address, out string errorMessage))
             {
-                Entities.Entities.Address incompleteAddress = new();
-                Notification notification = new()
-                {
-                    PropertyName = "Address",
-                    Message = "Preencha todos os campos do endereço."
-                };
-
-                incompleteAddress.Notitycoes.Add(notification);
-                return incompleteAddress;
+                return CreateAddressWithNotification(errorMessage);
             }
 
             Entities.Entities.Address newAddress = new Entities.Entities.Address();
             newAddress.ClientId = ClientId;
-            newAddress.Street = newClient.Street;
-            newAddress.City = newClient.City;
-            newAddress.Number = newClient.Number;
-            newAddress.Neighborhood = newClient.Neighborhood;
-            newAddress.ZipCode = newClient.ZipCode;
+            newAddress.Street = address.Street;
+            newAddress.City = address.City;
+            newAddress.Number = address.Number;
+            newAddress.Neighborhood = address.Neighborhood;
+            newAddress.ZipCode = address.ZipCode;
 
             await _addressRepository.Add(newAddress);
             return newAddress;
         }
+
+        private bool ValidateAddress(Entities.Entities.Address address, out string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(address.Street))
+            {
+                errorMessage = "O campo 'Street' é obrigatório";
+                return true;
+            }
+
+            if (address.Number <= 0)
+            {
+                errorMessage = "O campo 'Number' deve ser um número positivo";
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(address.Neighborhood))
+            {
+                errorMessage = "O campo 'Neighborhood' é obrigatório";
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(address.City))
+            {
+                errorMessage = "O campo 'City' é obrigatório";
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(address.ZipCode))
+            {
+                errorMessage = "O campo 'ZipCode' é obrigatório";
+                return true;
+            }
+
+            errorMessage = null;
+            return false;
+        }
+
+        private Entities.Entities.Address CreateAddressWithNotification(string errorMessage)
+        {
+            Entities.Entities.Address addressWithNotification = new();
+            Notification notification = new Notification
+            {
+                Message = errorMessage,
+                PropertyName = "Address",
+            };
+
+            addressWithNotification.Notitycoes.Add(notification);
+            return addressWithNotification;
+        }
+
     }
 }

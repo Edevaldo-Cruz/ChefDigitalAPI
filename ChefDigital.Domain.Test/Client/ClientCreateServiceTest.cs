@@ -1,14 +1,7 @@
-﻿using Castle.Core.Resource;
-using ChefDigital.Domain.Interfaces;
+﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Service.Client;
-using ChefDigital.Entities.Entities.Generics;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChefDigital.Domain.Test.Client
 {

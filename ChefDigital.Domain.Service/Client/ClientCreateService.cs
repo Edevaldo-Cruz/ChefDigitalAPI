@@ -17,7 +17,6 @@ namespace ChefDigital.Domain.Service.Client
 
         public async Task<Entities.Entities.Client> CreateAsync(Entities.Entities.Client client)
         {
-
             if (ValidateClient(client, out string errorMessage))
             {
                 return CreateClientWithNotification(errorMessage);
@@ -42,7 +41,8 @@ namespace ChefDigital.Domain.Service.Client
             return newClient;
         }
 
-        private bool ValidateClient(Entities.Entities.Client client, out string errorMessage)
+        // Esse metodo contem a palavara-chave 'out' que permite retorna um valor adicional nesse caso o errorMessage
+        private bool ValidateClient(Entities.Entities.Client client, out string errorMessage) 
         {
             if (string.IsNullOrWhiteSpace(client.FirstName))
             {
