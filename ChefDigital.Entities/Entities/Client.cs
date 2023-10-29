@@ -19,7 +19,7 @@ namespace ChefDigital.Entities.Entities
 
         public Client()
         {
-            SetDataAlteracao(DateTime.MinValue);
+            SetDateChange(DateTime.MinValue);
             Active = true;
         }
         public void SetActiveFalse()

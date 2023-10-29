@@ -3,11 +3,11 @@ using ChefDigital.Entities.Entities.Generics;
 
 namespace ChefDigital.Domain.Service.Client
 {
-    public class ClientUpdateService : IClientUpdateService
+    public class ClientEditService : IClientUpdateService
     {
         private readonly IClientRepository _clientRepository;
 
-        public ClientUpdateService(IClientRepository clientRepository)
+        public ClientEditService(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
         }
@@ -30,7 +30,7 @@ namespace ChefDigital.Domain.Service.Client
             }
 
             client.Id = bankClient.Id;
-            client.SetDataAlteracao(DateTime.Now);
+            client.SetDateChange(DateTime.Now);
 
             var result = await _clientRepository.Edit(client);
             return result;

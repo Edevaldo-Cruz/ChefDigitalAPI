@@ -19,7 +19,7 @@ namespace ChefDigital.Entities.Entities.Generics
         public DateTime InclusionDate { get; private set; }
         public DateTime? ChangeDate { get; private set; }
 
-        public void SetDataAlteracao(DateTime? dataAlteracao)
+        public void SetDateChange(DateTime? dataAlteracao)
         {
             ChangeDate = dataAlteracao;
         }
