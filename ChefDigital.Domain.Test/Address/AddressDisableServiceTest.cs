@@ -23,7 +23,7 @@ namespace ChefDigital.Domain.Service.Test.Address
                 ZipCode = "12345-678",
                 Active = true,
             };
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
 
             var addressRepository = new Mock<IAddressRepository>();
             addressRepository.Setup(repo => repo
@@ -57,7 +57,7 @@ namespace ChefDigital.Domain.Service.Test.Address
                 ZipCode = "12345-678",
                 Active = true,
             };
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
 
             var addressRepository = new Mock<IAddressRepository>();
             var addressService = new AddressDisableService(addressRepository.Object);

@@ -57,7 +57,7 @@ builder.Services.AddScoped<IClientAppService, ClientAppService>();
 
 //Domain Service Client
 builder.Services.AddScoped<IClientCreateService, ClientCreateService>();
-builder.Services.AddScoped<IClientUpdateService, ClientUpdateService>();
+builder.Services.AddScoped<IClientUpdateService, ClientEditService>();
 builder.Services.AddScoped<IClientListService, ClientListService>();
 builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 builder.Services.AddScoped<IClientExistsService, ClientExistsService>();

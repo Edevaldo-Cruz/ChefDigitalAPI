@@ -51,7 +51,7 @@ namespace ChefDigital.Domain.Service.Address
             }
 
             address.Id = addressBanck.Id;
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
             Entities.Entities.Address newAddress = await _addressRepository.Edit(address);
 
             return newAddress;

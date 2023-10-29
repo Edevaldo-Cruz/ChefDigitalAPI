@@ -27,7 +27,7 @@ namespace ChefDigital.Domain.Service.Test.Address
                 Neighborhood = "Bairro Teste",
                 ZipCode = "12345-678"
             };
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
 
             var addressRepositoryMock = new Mock<IAddressRepository>();
             addressRepositoryMock.Setup(repo => repo
@@ -77,7 +77,7 @@ namespace ChefDigital.Domain.Service.Test.Address
                 Neighborhood = "Bairro Teste",
                 ZipCode = "12345-678"
             };
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
 
             var addressRepositoryMock = new Mock<IAddressRepository>();
            
@@ -93,16 +93,16 @@ namespace ChefDigital.Domain.Service.Test.Address
             var addessEditService = new AddressEditService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             //Act
-            var result = addessEditService.EditAsync(id, address);
+            var result = await addessEditService.EditAsync(id, address);
 
             //Assert
-            Assert.NotNull(result.Result.Notitycoes);
-            Assert.Contains("O endereço não foi encontrado.", result.Result.Notitycoes.Select(n => n.Message));
-            Assert.Null(result.Result.Street);
-            Assert.Null(result.Result.City);
-            Assert.Equal(0, result.Result.Number);
-            Assert.Null(result.Result.Neighborhood);
-            Assert.Null(result.Result.ZipCode);
+            Assert.NotNull(result.Notitycoes);
+            Assert.Contains("O endereço não foi encontrado.", result.Notitycoes.Select(n => n.Message));
+            Assert.Null(result.Street);
+            Assert.Null(result.City);
+            Assert.Equal(0, result.Number);
+            Assert.Null(result.Neighborhood);
+            Assert.Null(result.ZipCode);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace ChefDigital.Domain.Service.Test.Address
                 Neighborhood = "Bairro Teste",
                 ZipCode = "12345-678"
             };
-            address.SetDataAlteracao(DateTime.Now);
+            address.SetDateChange(DateTime.Now);
 
             var addressRepositoryMock = new Mock<IAddressRepository>();
             addressRepositoryMock.Setup(repo => repo
