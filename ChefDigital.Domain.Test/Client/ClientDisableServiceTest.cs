@@ -7,6 +7,7 @@ namespace ChefDigital.Domain.Service.Test.Client
     public class ClientDisableServiceTest
     {
         [Fact]
+        [Trait("Description", "Teste unitário para garantir que o método DisableAsync altere a propriedade Active.")]
         public async Task DisableAsync_MustDeactivateClient_WhenCalling()
         {
             //Arrange
@@ -49,7 +50,7 @@ namespace ChefDigital.Domain.Service.Test.Client
         }
 
         [Fact]
-        [Trait("Description", "Teste unitário para garantir que o método EditAsync deve notificar quando um cliente não é encontrado.")]
+        [Trait("Description", "Teste unitário para garantir que o método DisableAsync deve notificar quando um cliente não é encontrado.")]
         public async Task DisableAsync_MustNotifyCustomerNotFound_WhenCalling()
         {
             //Arrange
