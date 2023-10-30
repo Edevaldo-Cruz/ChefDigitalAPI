@@ -18,7 +18,6 @@ namespace ChefDigital.Domain.Service.Test.Client
             clientRepository.Setup(repo => repo.ClientListFilter(It.IsAny<Expression<Func<Entities.Entities.Client, bool>>>()))
                 .Returns(Task.FromResult(new List<Entities.DTO.Client.ClientListDTO>()));
 
-
             var clientListService = new ClientListService(clientRepository.Object);
 
             //Act

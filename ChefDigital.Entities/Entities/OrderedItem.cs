@@ -10,18 +10,16 @@ namespace ChefDigital.Entities.Entities
         {
         }
 
-        [Required(ErrorMessage = "OrderId é obrigatório")]
+        [Required]
         public Guid OrderId { get; set; }
-        [ForeignKey("OrderId")]
         public Order Order { get; set; }
-        [Required(ErrorMessage = "Item é obrigatório")]
-        [MaxLength(100, ErrorMessage = "Item deve ter no máximo 100 caracteres")]
+        [Required]
         public string Item { get; set; }
-        [Required(ErrorMessage = "UnitValue é obrigatório")]
+        [Required]
         public decimal UnitValue { get; set; }
-        [Required(ErrorMessage = "ItemQuantity é obrigatório")]
+        [Required]
         public int ItemQuantity { get; set; }
-        [Required(ErrorMessage = "TotalItemValue é obrigatório")]
+        [Required]
         public decimal TotalItemValue => UnitValue * ItemQuantity;
     }
 }
