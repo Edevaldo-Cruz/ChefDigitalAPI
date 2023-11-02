@@ -2,6 +2,7 @@
 using ChefDigital.Domain.Interfaces.OrderedItem;
 using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities.Generics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ChefDigital.Domain.Service.OrderedItem
 {
@@ -14,22 +15,22 @@ namespace ChefDigital.Domain.Service.OrderedItem
             _repository = repository;
         }
 
-        public async Task<bool> CreateAsync(Entities.Entities.OrderedItem orderedItem)
+        public async Task<Entities.DTO.OrderedItem.CreateResultDTO> CreateAsync(Entities.Entities.OrderedItem orderedItem)
         {
-            if(ValidateOrderedItem(orderedItem, out string errorMessage))
+            var result = new Entities.DTO.OrderedItem.CreateResultDTO();
+
+            if (ValidateOrderedItem(orderedItem, out string errorMessage))
             {
-                var orderedItemWithNotification = CreateOrderedItemWithNotification(errorMessage);
-                return false;
+                result.IsSuccess = false;
+                result.OrderedItem = CreateOrderedItemWithNotification(errorMessage);
+            }
+            else
+            {
+                result.IsSuccess = true;
+                result.OrderedItem = await _repository.Add(orderedItem);
             }
 
-            var result = await _repository.Add(orderedItem);
-
-            if (result == null)
-            {
-                return false;
-            }
-
-            return true;
+            return result;
         }
 
         private bool ValidateOrderedItem(Entities.Entities.OrderedItem orderedItem, out string errorMessage)

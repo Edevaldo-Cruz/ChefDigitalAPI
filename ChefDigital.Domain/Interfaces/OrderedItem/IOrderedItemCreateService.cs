@@ -8,6 +8,6 @@ namespace ChefDigital.Domain.Interfaces.OrderedItem
 {
     public interface IOrderedItemCreateService
     {
-        Task<bool> CreateAsync(Entities.Entities.OrderedItem orderedItem);
+        Task<Entities.DTO.OrderedItem.CreateResultDTO> CreateAsync(Entities.Entities.OrderedItem orderedItem);
     }
 }
