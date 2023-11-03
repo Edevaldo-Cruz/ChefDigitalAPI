@@ -3,6 +3,8 @@ using ChefDigital.Domain.Interfaces.Address;
 using ChefDigital.Domain.Interfaces.Order;
 using ChefDigital.Entities.DTO;
 using ChefDigital.Entities.Entities;
+using ChefDigital.Entities.Entities.Generics;
+using ChefDigital.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,11 @@ namespace ChefDigital.Domain.Service.Order
 
         public async Task<Entities.Entities.Order> CreateAsync(Entities.Entities.Order order)
         {
+            if (ValidateOrder(order, out string errorMessage))
+            {
+                return CreateOrderWithNotification(errorMessage);
+            }
+
             var newOrder = await _orderRepository.Add(order);
 
             if (newOrder == null)
@@ -41,5 +48,63 @@ namespace ChefDigital.Domain.Service.Order
 
             return newOrder;
         }
+
+        private bool ValidateOrder(Entities.Entities.Order order, out string errorMessage)
+        {
+            if (order.ClientId == Guid.Empty)
+            {
+                errorMessage = "O campo 'ClientId' é obrigatório";
+                return false;
+            }
+
+            if (order.Items == null || !order.Items.Any())
+            {
+                errorMessage = "O campo 'Items' é obrigatório";
+                return false;
+            }
+
+            if (order.Subtotal <= 0)
+            {
+                errorMessage = "O campo 'Subtotal' deve ser um número positivo";
+                return false;
+            }
+
+            if (order.Discount < 0)
+            {
+                errorMessage = "O campo 'Discount' não pode ser negativo";
+                return false;
+            }
+
+            if (order.TotalOrderValue <= 0)
+            {
+                errorMessage = "O campo 'TotalOrderValue' deve ser um número positivo";
+                return false;
+            }
+
+            if (!Enum.IsDefined(typeof(OrderStatusEnum), order.Status))
+            {
+                errorMessage = "O campo 'Status' é inválido";
+                return false;
+            }
+
+            errorMessage = null;
+            return true;
+        }
+
+
+        private Entities.Entities.Order CreateOrderWithNotification(string errorMessage)
+        {
+            Entities.Entities.Order orderWithNotification = new();
+            Notification notification = new Notification
+            {
+                Message = errorMessage,
+                PropertyName = "Order",
+            };
+
+            orderWithNotification.Notitycoes.Add(notification);
+            return orderWithNotification;
+        }
+
+       
     }
 }

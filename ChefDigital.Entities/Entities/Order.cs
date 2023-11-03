@@ -13,8 +13,7 @@ namespace ChefDigital.Entities.Entities
         }
 
         [Required]
-        public Guid ClientId { get; set; }
-        [ForeignKey("ClientId")]
+        public Guid ClientId { get; set; }       
         public Client Client { get; set; }
         [Required]
         public List<OrderedItem> Items { get; set; }
