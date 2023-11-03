@@ -15,36 +15,20 @@ namespace ChefDigital.Domain.Service.Order
 {
     public class OrderCreateService : IOrderCreateService
     {
-        private readonly IClientRepository _clientRepository;
-        private readonly IAddressRepository _addressRepository;
+       
         private readonly IOrderRepository _orderRepository;
-        private readonly IOrderedItemRepository _orderedItem;
 
-
-        public OrderCreateService(IClientRepository clientRepository,
-                                    IAddressRepository addressRepository,
-                                    IOrderRepository orderRepository,
-                                    IOrderedItemRepository orderedItem)
+        public OrderCreateService(IOrderRepository orderRepository)
         {
-            _clientRepository = clientRepository;
-            _addressRepository = addressRepository;
             _orderRepository = orderRepository;
-            _orderedItem = orderedItem;
         }
 
         public async Task<Entities.Entities.Order> CreateAsync(Entities.Entities.Order order)
         {
             if (ValidateOrder(order, out string errorMessage))
-            {
                 return CreateOrderWithNotification(errorMessage);
-            }
 
             var newOrder = await _orderRepository.Add(order);
-
-            if (newOrder == null)
-            {
-                return null;
-            }
 
             return newOrder;
         }
@@ -54,43 +38,42 @@ namespace ChefDigital.Domain.Service.Order
             if (order.ClientId == Guid.Empty)
             {
                 errorMessage = "O campo 'ClientId' é obrigatório";
-                return false;
+                return true;
             }
 
             if (order.Items == null || !order.Items.Any())
             {
                 errorMessage = "O campo 'Items' é obrigatório";
-                return false;
+                return true;
             }
 
             if (order.Subtotal <= 0)
             {
                 errorMessage = "O campo 'Subtotal' deve ser um número positivo";
-                return false;
+                return true;
             }
 
             if (order.Discount < 0)
             {
                 errorMessage = "O campo 'Discount' não pode ser negativo";
-                return false;
+                return true;
             }
 
             if (order.TotalOrderValue <= 0)
             {
                 errorMessage = "O campo 'TotalOrderValue' deve ser um número positivo";
-                return false;
+                return true;
             }
 
             if (!Enum.IsDefined(typeof(OrderStatusEnum), order.Status))
             {
                 errorMessage = "O campo 'Status' é inválido";
-                return false;
+                return true;
             }
 
             errorMessage = null;
-            return true;
+            return false;
         }
-
 
         private Entities.Entities.Order CreateOrderWithNotification(string errorMessage)
         {
@@ -105,6 +88,6 @@ namespace ChefDigital.Domain.Service.Order
             return orderWithNotification;
         }
 
-       
+
     }
 }
