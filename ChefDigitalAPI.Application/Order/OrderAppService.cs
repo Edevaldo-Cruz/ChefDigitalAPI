@@ -151,10 +151,9 @@ namespace ChefDigitalAPI.Application.Order
             {
                 Id = orderId,
                 ClientId = clientId,
-                Subtotal = subtotal,
                 Discount = discount
             };
-            newOrder.SetTotal(subtotal, discount);
+            newOrder.SetTotal();
 
             var reusult = await _orderCreateService.CreateAsync(newOrder);
             return reusult;
@@ -197,9 +196,8 @@ namespace ChefDigitalAPI.Application.Order
                     ItemQuantity = item.ItemQuantity
                 };
 
-                bool save = await _orderedItemCreateService.CreateAsync(newItem);
-
-                subtotal += (item.UnitValue * item.ItemQuantity);
+               await _orderedItemCreateService.CreateAsync(newItem);
+               subtotal += (item.UnitValue * item.ItemQuantity);
             }
 
             return subtotal;

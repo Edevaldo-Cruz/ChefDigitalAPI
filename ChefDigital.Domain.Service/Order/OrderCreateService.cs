@@ -47,27 +47,16 @@ namespace ChefDigital.Domain.Service.Order
                 return true;
             }
 
-            if (order.Subtotal <= 0)
-            {
-                errorMessage = "O campo 'Subtotal' deve ser um número positivo";
-                return true;
-            }
-
             if (order.Discount < 0)
             {
                 errorMessage = "O campo 'Discount' não pode ser negativo";
                 return true;
             }
 
-            if (order.TotalOrderValue <= 0)
-            {
-                errorMessage = "O campo 'TotalOrderValue' deve ser um número positivo";
-                return true;
-            }
 
             if (!Enum.IsDefined(typeof(OrderStatusEnum), order.Status))
             {
-                errorMessage = "O campo 'Status' é inválido";
+                errorMessage = "Status inválido";
                 return true;
             }
 

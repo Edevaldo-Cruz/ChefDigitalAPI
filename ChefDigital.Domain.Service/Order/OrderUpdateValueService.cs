@@ -23,7 +23,7 @@ namespace ChefDigital.Domain.Service.Order
 
             if (orderBank != null)
             {
-                orderBank.SetTotal(value, 0);
+                orderBank.SetTotal();
 
                 await _orderRepository.Edit(orderBank);
             }
