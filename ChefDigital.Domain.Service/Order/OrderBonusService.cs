@@ -11,6 +11,9 @@ namespace ChefDigital.Domain.Service.Order
     public class OrderBonusService : IOrderBonusService
     {
         private readonly IOrderRepository _orderRepository;
+        decimal minValue = 20;
+        decimal maxValue = 150;
+        decimal discountValue = 0.3m;
 
         public OrderBonusService(IOrderRepository orderRepository)
         {
@@ -19,18 +22,18 @@ namespace ChefDigital.Domain.Service.Order
 
         public async Task<decimal> Bonus(Guid clientId, decimal value)
         {
-            if(value < 20)
+            if(value < minValue)
                return 0;
 
             bool discount = await _orderRepository.CheckClientOrders(clientId);
 
             if (discount)
             {
-                if(value < 150)
-                    return value * 0.3m;
+                if(value < maxValue)
+                    return value * discountValue;
 
-                if (value > 150)
-                    return 150 * 0.3m;
+                if (value >= maxValue)
+                    return maxValue * discountValue;
             }
             return 0;
         }
