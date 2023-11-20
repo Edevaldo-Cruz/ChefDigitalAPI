@@ -119,7 +119,7 @@ namespace ChefDigital.Domain.Service.Test.Order
 
             //Assert
             Assert.NotNull(result);
-            Assert.True(result.Notitycoes.Any(n => n.Message == "O pedido já se encontra cancelado."));
+            Assert.True(result.Notitycoes.Any(n => n.Message == "O pedido está cancelado."));
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace ChefDigital.Domain.Service.Test.Order
 
             //Assert
             Assert.NotNull(result);
-            Assert.True(result.Notitycoes.Any(n => n.Message == "O pedido não pode ser cancelado pois já foi entregue."));
+            Assert.True(result.Notitycoes.Any(n => n.Message == "O pedido finalizado, pois já foi entregue."));
         }
 
     }
