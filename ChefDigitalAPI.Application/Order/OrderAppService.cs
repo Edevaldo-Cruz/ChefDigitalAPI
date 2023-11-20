@@ -75,11 +75,12 @@ namespace ChefDigitalAPI.Application.Order
         {
             Guid orderId = Guid.NewGuid();
             decimal subtotal = 0;
+            
+            //trocar essa interação
             var client = await _clientRepository.GetEntityById(orderDTO.ClientId);
 
             if (client == null)
                 return null;
-
 
             if (orderDTO.OrderedItems != null)
             {

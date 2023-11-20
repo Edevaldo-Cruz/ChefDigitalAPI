@@ -9,6 +9,7 @@ namespace ChefDigitalAPI.Application.Address.Interface
 {
     public interface IAddressAppService
     {
+        Task<ChefDigital.Entities.Entities.Address> CreateAsync(Guid clientId, AddressCreateDTO address);
         Task<ChefDigital.Entities.Entities.Address> DisableAsync(Guid id);
         Task<ChefDigital.Entities.Entities.Address> EditAsync(Guid id, AddressEditDTO address);
         Task<List<ChefDigital.Entities.Entities.Address>> ListAsync();

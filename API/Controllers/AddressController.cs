@@ -17,6 +17,17 @@ namespace ChefDigital.API.Controllers
             _addressAppService = addressAppService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create(Guid clientId, AddressCreateDTO address)
+        {
+            Entities.Entities.Address addressCreate = await _addressAppService.CreateAsync(clientId, address);
+
+            if (addressCreate.HasNotifications)
+                return BadRequest(addressCreate.Notitycoes);
+
+            return Ok(addressCreate);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] AddressEditDTO newAddress)
         {

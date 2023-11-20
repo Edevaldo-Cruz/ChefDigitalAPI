@@ -15,16 +15,26 @@ namespace ChefDigitalAPI.Application.Address
         private readonly IAddressEditService _addressEditService;
         private readonly IAddressListService _addressListService;
         private readonly IAddressListByIdClientService _addressListByIdClientService;
+        private readonly IAddressCreateService _addressCreateService;
 
         public AddressAppService(IAddressDisableService addressDisableService,
-                                    IAddressEditService addressEditService, 
+                                    IAddressEditService addressEditService,
                                     IAddressListService addressListService,
-                                    IAddressListByIdClientService addressListByIdClientService)
+                                    IAddressListByIdClientService addressListByIdClientService,
+                                    IAddressCreateService addressCreateService)
         {
             _addressDisableService = addressDisableService;
             _addressEditService = addressEditService;
             _addressListService = addressListService;
             _addressListByIdClientService = addressListByIdClientService;
+            _addressCreateService = addressCreateService;
+        }
+
+        public async Task<ChefDigital.Entities.Entities.Address> CreateAsync(Guid clientId, AddressCreateDTO address)
+        {
+            var result = await _addressCreateService.CreateAsync(clientId, address.ToAddress());
+
+            return result;
         }
 
         public async Task<ChefDigital.Entities.Entities.Address> DisableAsync(Guid id)
