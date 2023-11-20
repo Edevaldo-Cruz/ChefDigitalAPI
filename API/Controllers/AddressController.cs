@@ -49,6 +49,9 @@ namespace ChefDigital.API.Controllers
         public async Task<IActionResult> DisableAddress(Guid id)
         {
             var address = await _addressAppService.DisableAsync(id);
+            if (address.HasNotifications)
+                return BadRequest(address.Notitycoes);
+
             return Ok(address);
 
         }

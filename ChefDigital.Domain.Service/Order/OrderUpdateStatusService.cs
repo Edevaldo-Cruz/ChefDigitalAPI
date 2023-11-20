@@ -35,7 +35,7 @@ namespace ChefDigital.Domain.Service.Order
 
             if (orderBank.Status == Entities.Enums.OrderStatusEnum.Canceled)
             {
-                notification.Message = "O pedido já se encontra cancelado.";
+                notification.Message = "O pedido está cancelado.";
                 notification.PropertyName = "Order";
 
                 orderBank.Notitycoes.Add(notification);
@@ -44,7 +44,7 @@ namespace ChefDigital.Domain.Service.Order
 
             if (orderBank.Status == Entities.Enums.OrderStatusEnum.Sent)
             {
-                notification.Message = "O pedido não pode ser cancelado pois já foi entregue.";
+                notification.Message = "O pedido finalizado, pois já foi entregue.";
                 notification.PropertyName = "Order";
 
                 orderBank.Notitycoes.Add(notification);

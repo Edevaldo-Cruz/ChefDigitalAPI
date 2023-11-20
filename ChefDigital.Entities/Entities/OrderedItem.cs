@@ -12,7 +12,7 @@ namespace ChefDigital.Entities.Entities
 
         [Required]
         public Guid OrderId { get; set; }
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
         [Required]
         public string Item { get; set; }
         [Required]

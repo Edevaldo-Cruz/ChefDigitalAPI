@@ -44,7 +44,7 @@ namespace ChefDigital.Entities.DTO
 
         private bool ValidatePhone(string phone)
         {
-            var phonePattern = @"^(\([0-9]{2}\))?[0-9]{4,5}-?[0-9]{4}$";
+            var phonePattern = @"^(\+\d{1,3}\s?)?(\(\d{2,3}\))?\s?(\d{4,5}(-|\s)?\d{4})$";
             return Regex.IsMatch(phone, phonePattern);
         }
 

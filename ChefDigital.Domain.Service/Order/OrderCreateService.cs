@@ -47,6 +47,18 @@ namespace ChefDigital.Domain.Service.Order
                 return true;
             }
 
+            if (order.Items.Any(i => i.UnitValue <=0))
+            {
+                errorMessage = "O campo 'UnitValue' não deve ser menor igual a zero.";
+                return true;
+            }
+
+            if (order.Items.Any(i => i.ItemQuantity <= 0))
+            {
+                errorMessage = "O campo 'ItemQuantity' não deve ser menor igual a zero.";
+                return true;
+            }
+
             if (order.Discount < 0)
             {
                 errorMessage = "O campo 'Discount' não pode ser negativo";

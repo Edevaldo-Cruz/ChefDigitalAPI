@@ -18,9 +18,11 @@ namespace ChefDigital.Domain.Service.Address
             _addressRepository = addressRepository;
         }
 
-        public Task<bool> IsAddressExists(Guid id, string street, int number)
+        public async Task<bool> IsAddressExists(Guid id, string street, int number)
         {
-           return _addressRepository.ExistsAsync(a => a.ClientId == id && a.Street == street && a.Number == number);
+            var trimmedStreet = street.Trim();
+            return await _addressRepository.ExistsAsync(a => a.ClientId == id && a.Street.Trim() == trimmedStreet && a.Number == number);
         }
+
     }
 }

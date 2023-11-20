@@ -18,10 +18,13 @@ namespace ChefDigital.API.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] OrderCreateDTO order)
         {
-            var result = await _orderAppService.CreateAsync(order);
+            Entities.Entities.Order result = await _orderAppService.CreateAsync(order);
 
-            if (!result)
-                return BadRequest("Erro ao realizar o pedido");
+            if (result == null)
+                return BadRequest("Cliente não encontrado.");
+
+            if (result.HasNotifications)
+                return BadRequest(result.Notitycoes);
 
             return Ok("Pedido realizado com sucesso.");
         }
@@ -29,11 +32,13 @@ namespace ChefDigital.API.Controllers
         [HttpPost("CreateOrderNewClient")]
         public async Task<IActionResult> CreateOrderNewClient([FromBody] OrderCreateNewClientDTO order)
         {
-            var result = await _orderAppService
-                .CreateOrderNewClientAsync(order);
+            Entities.Entities.Order result = await _orderAppService.CreateOrderNewClientAsync(order);
 
-            if (!result)
+            if (result == null)
                 return BadRequest("Erro ao realizar o pedido");
+
+            if (result.HasNotifications)
+                return BadRequest(result.Notitycoes);
 
             return Ok("Pedido realizado com sucesso.");
         }
