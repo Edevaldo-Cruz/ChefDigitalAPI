@@ -27,7 +27,6 @@ namespace ChefDigital.API.Controllers
             return Ok(addressEdit);
         }
 
-
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
@@ -39,6 +38,10 @@ namespace ChefDigital.API.Controllers
         public async Task<IActionResult> ListByIdClient(Guid idClient)
         {
             List<Entities.Entities.Address> list = await _addressAppService.ListAsync(idClient);
+
+            if (!list.Any())
+                return BadRequest("Endereço não encontrado.");
+
             return Ok(list);
         }
 

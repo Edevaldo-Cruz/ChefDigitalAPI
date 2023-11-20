@@ -33,6 +33,7 @@ namespace ChefDigital.Domain.Service.Address
             newAddress.Number = address.Number;
             newAddress.Neighborhood = address.Neighborhood;
             newAddress.ZipCode = address.ZipCode;
+            newAddress.Active = true;
 
             await _addressRepository.Add(newAddress);
             return newAddress;

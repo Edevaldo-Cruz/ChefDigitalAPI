@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace ChefDigital.Domain.Service.Address
 {
@@ -36,7 +37,20 @@ namespace ChefDigital.Domain.Service.Address
                 return addressEmpty;
             }
 
+            if (addressBank.Active == false)
+            {
+                Entities.Entities.Address addressEmpty = new();
+                Notification notification = new()
+                {
+                    Message = "O endereço já se encontra inativo.",
+                    PropertyName = "Address"
+                };
+                addressEmpty.Notitycoes.Add(notification);
+                return addressEmpty;
+            }
+
             addressBank.Active = false;
+            Entities.Entities.Address newAddress = await _addressRepository.Edit(addressBank);
 
             return addressBank;
         }

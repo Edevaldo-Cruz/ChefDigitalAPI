@@ -9,6 +9,7 @@ namespace ChefDigital.Entities.DTO.Address
 {
     public class AddressEditDTO
     {
+        public Guid ClientId { get; set; }
         public string Street { get; set; }
         public int Number { get; set; }
         public string Neighborhood { get; set; }
@@ -19,6 +20,7 @@ namespace ChefDigital.Entities.DTO.Address
         {
             Entities.Address address = new()
             {
+                ClientId = ClientId,
                 Street = Street,
                 Number = Number,
                 Neighborhood = Neighborhood,

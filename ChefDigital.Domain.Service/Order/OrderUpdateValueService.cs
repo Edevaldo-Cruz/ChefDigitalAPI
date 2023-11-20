@@ -24,7 +24,6 @@ namespace ChefDigital.Domain.Service.Order
             if (orderBank != null)
             {
                 orderBank.SetTotal();
-
                 await _orderRepository.Edit(orderBank);
             }
         }
