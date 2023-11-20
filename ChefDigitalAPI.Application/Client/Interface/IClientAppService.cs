@@ -8,5 +8,6 @@ namespace ChefDigitalAPI.Application.Client.Interface
         Task<ChefDigital.Entities.Entities.Client> DisableAsync(Guid id);
         Task<List<ClientListDTO>> ListAsync();
         Task<ChefDigital.Entities.Entities.Client> EditAsync(Guid id, ClientEditDTO client);
+        Task<ChefDigital.Entities.Entities.Client> SearchCustomerAsync(Guid id);
     }
 }

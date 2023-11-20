@@ -1,5 +1,6 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Interfaces.Address;
+using ChefDigital.Domain.Interfaces.Client;
 using ChefDigital.Entities.DTO.Client;
 using ChefDigitalAPI.Application.Client.Interface;
 
@@ -12,18 +13,21 @@ namespace ChefDigitalAPI.Application.Client
         private readonly IClientDisableService _clientDisableService;
         private readonly IClientListService _clientListService;
         private readonly IClientUpdateService _clientUpdateService;
+        private readonly IClientSearchService _clientSearchService;
 
         public ClientAppService(IClientCreateService clientCreateService,
                                     IAddressCreateService addressCreateService,
                                     IClientDisableService clientDisableService,
                                     IClientListService clientListService,
-                                    IClientUpdateService clientUpdateService)
+                                    IClientUpdateService clientUpdateService,
+                                    IClientSearchService clientSearchService)
         {
             _clientCreateService = clientCreateService;
             _addressCreateService = addressCreateService;
             _clientDisableService = clientDisableService;
             _clientListService = clientListService;
             _clientUpdateService = clientUpdateService;
+            _clientSearchService = clientSearchService;
         }
 
         public async Task<ChefDigital.Entities.Entities.Client> Create(ClientCreateDTO client)
@@ -51,6 +55,12 @@ namespace ChefDigitalAPI.Application.Client
         public Task<ChefDigital.Entities.Entities.Client> EditAsync(Guid id, ClientEditDTO client)
         {
             var result = _clientUpdateService.EditAsync(id, client.ToClient());
+            return result;
+        }
+
+        public Task<ChefDigital.Entities.Entities.Client> SearchCustomerAsync(Guid id)
+        {
+            var result = _clientSearchService.Search(id);
             return result;
         }
     }

@@ -61,6 +61,7 @@ builder.Services.AddScoped<IClientUpdateService, ClientEditService>();
 builder.Services.AddScoped<IClientListService, ClientListService>();
 builder.Services.AddScoped<IClientDisableService, ClientDisableService>();
 builder.Services.AddScoped<IClientExistsService, ClientExistsService>();
+builder.Services.AddScoped<IClientSearchService, ClientSearchService>();
 
 //Application Address
 builder.Services.AddScoped<IAddressAppService, AddressAppService>();

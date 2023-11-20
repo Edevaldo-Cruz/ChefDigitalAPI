@@ -1,5 +1,6 @@
 ﻿using ChefDigital.Domain.Interfaces;
 using ChefDigital.Domain.Service.Address;
+using ChefDigital.Entities.Entities;
 using ChefDigital.Infra.Repository.Repositories;
 using Moq;
 using System;
@@ -16,6 +17,8 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         public async Task CreateAsync_ShouldReturnNewAddress_WhenCalled()
         {
             // Arrange
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
             var clientId = Guid.NewGuid();
             var newAddress = new ChefDigital.Entities.Entities.Address
             {
@@ -26,12 +29,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 ZipCode = "12345-678"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            { 
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newAddress);
@@ -51,6 +62,8 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         public async Task CreateAsync_MustReturnStreetFieldIsRequiredWhenCalled()
         {
             // Arrange
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
             var clientId = Guid.NewGuid();
             var newClient = new ChefDigital.Entities.Entities.Address
             {
@@ -60,12 +73,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 ZipCode = "12345-678"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            {
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newClient);
@@ -82,6 +103,9 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         public async Task CreateAsync_MustReturnCityFieldIsRequiredWhenCalled()
         {
             // Arrange
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
+
             var clientId = Guid.NewGuid();
             var newClient = new ChefDigital.Entities.Entities.Address
             {
@@ -91,12 +115,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 ZipCode = "12345-678"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            {
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newClient);
@@ -113,6 +145,8 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         public async Task CreateAsync_MustReturnNumberFieldIsRequiredWhenCalled()
         {
             // Arrange
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
             var clientId = Guid.NewGuid();
             var newClient = new ChefDigital.Entities.Entities.Address
             {
@@ -122,12 +156,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 ZipCode = "12345-678"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            {
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newClient);
@@ -144,6 +186,8 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         public async Task CreateAsync_MustReturnNeighborhoodFieldIsRequiredWhenCalled()
         {
             // Arrange
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
             var clientId = Guid.NewGuid();
             var newClient = new ChefDigital.Entities.Entities.Address
             {
@@ -153,12 +197,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 ZipCode = "12345-678"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            {
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newClient);
@@ -176,6 +228,8 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
         {
             // Arrange
             var clientId = Guid.NewGuid();
+            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var clientRepositoryMock = new Mock<IClientRepository>();
             var newClient = new ChefDigital.Entities.Entities.Address
             {
                 Street = "Rua Teste",
@@ -184,12 +238,20 @@ namespace ChefDigital.Teste.DomainServiceTest.Address
                 Neighborhood = "Bairro Teste"
             };
 
-            var addressRepositoryMock = new Mock<IAddressRepository>();
+            var client = new Entities.Entities.Client
+            {
+                Id = clientId,
+            };
+
             addressRepositoryMock.Setup(repo => repo
                 .Add(It.IsAny<ChefDigital.Entities.Entities.Address>()))
                 .Returns<ChefDigital.Entities.Entities.Address>(Task.FromResult);
 
-            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object);
+            clientRepositoryMock.Setup(repo => repo
+                .GetEntityById(It.IsAny<Guid>()))
+                .ReturnsAsync(client);
+
+            var addressCreateService = new AddressCreateService(addressRepositoryMock.Object, clientRepositoryMock.Object);
 
             // Act
             var result = await addressCreateService.CreateAsync(clientId, newClient);

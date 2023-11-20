@@ -49,6 +49,17 @@ namespace ChefDigital.API.Controllers
             return clients;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> SearchCustomer(Guid id)
+        {
+            var client = await _clientAppService.SearchCustomerAsync(id);
+
+            if (client == null)
+                return NotFound("Cliente não encontrado.");
+
+            return Ok(client);
+        }
+
         [HttpPut("disable/{id}")]
         public async Task<IActionResult> DisableClient(Guid id)
         {
