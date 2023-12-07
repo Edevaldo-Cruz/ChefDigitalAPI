@@ -14,7 +14,6 @@ namespace ChefDigitalAPI.Application.Order
     public class OrderAppService : IOrderAppService
     {
         private readonly IOrderCreateService _orderCreateService;
-        private readonly IClientRepository _clientRepository;
         private readonly IClientExistsService _clientExistsService;
         private readonly IClientCreateService _clientCreateService;
         private readonly IAddressCreateService _addressCreateService;
@@ -23,9 +22,9 @@ namespace ChefDigitalAPI.Application.Order
         private readonly IOrderUpdateValueService _orderUpdateValueService;
         private readonly IOrderBonusService _orderBonusService;
         private readonly IMessageService _messageService;
-
         private readonly IOrderUpdateStatusService _orderUpdateStatusService;
         private readonly IOrderCancelService _orderCancelService;
+        private readonly IClientSearchService _clientSearchService;
 
         public OrderAppService(IOrderCreateService orderCreateService,
                                         IClientExistsService clientExistsService,
@@ -38,7 +37,7 @@ namespace ChefDigitalAPI.Application.Order
                                         IMessageService messageService,
                                         IOrderUpdateStatusService orderUpdateStatusService,
                                         IOrderCancelService orderCancelService,
-                                        IClientRepository clientRepository)
+                                        IClientSearchService clientSearchService)
         {
             _orderCreateService = orderCreateService;
             _clientExistsService = clientExistsService;
@@ -51,7 +50,7 @@ namespace ChefDigitalAPI.Application.Order
             _messageService = messageService;
             _orderUpdateStatusService = orderUpdateStatusService;
             _orderCancelService = orderCancelService;
-            _clientRepository = clientRepository;
+            _clientSearchService = clientSearchService;
         }
 
         /*
@@ -76,8 +75,7 @@ namespace ChefDigitalAPI.Application.Order
             Guid orderId = Guid.NewGuid();
             decimal subtotal = 0;
             
-            //trocar essa interação
-            var client = await _clientRepository.GetEntityById(orderDTO.ClientId);
+            var client = await _clientSearchService.Search(orderDTO.ClientId);
 
             if (client == null)
                 return null;
@@ -95,8 +93,6 @@ namespace ChefDigitalAPI.Application.Order
                 }
             }
             var newOrder = await CreateNewOrder(orderDTO, orderId, subtotal);
-
-            //await _orderUpdateValueService.UpdateAsync(newOrder.Id, subtotal);
 
             string textEmail = ChefDigital.Entities.Enums.OrderStatusHelper.GetMessage(OrderStatusEnum.Processing);
             _messageService.SendMessage(client.Email, textEmail);
@@ -208,7 +204,7 @@ namespace ChefDigitalAPI.Application.Order
             OrderStatusEnum status = result.Status;
             string textEmail = ChefDigital.Entities.Enums.OrderStatusHelper.GetMessage(status);
 
-            var client = await _clientRepository.GetEntityById(result.ClientId);
+            var client = await _clientSearchService.Search(result.ClientId);
 
             _messageService.SendMessage(client.Email, textEmail);
 

@@ -25,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Application", "1 - Appl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigitalAPI.Application", "ChefDigitalAPI.Application\ChefDigitalAPI.Application.csproj", "{9BB48679-EEA3-45F7-8D30-63CBEBDEA628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefDigital.Domain.Service.Test", "ChefDigital.Domain.Test\ChefDigital.Domain.Service.Test.csproj", "{58210D2D-7F5A-4516-856D-0157084F5D63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefDigital.Domain.Service.Test", "ChefDigital.Domain.Test\ChefDigital.Domain.Service.Test.csproj", "{58210D2D-7F5A-4516-856D-0157084F5D63}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{75E4E3D4-F38C-411D-8268-1A518A82301A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{58210D2D-7F5A-4516-856D-0157084F5D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58210D2D-7F5A-4516-856D-0157084F5D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58210D2D-7F5A-4516-856D-0157084F5D63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E4E3D4-F38C-411D-8268-1A518A82301A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E4E3D4-F38C-411D-8268-1A518A82301A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E4E3D4-F38C-411D-8268-1A518A82301A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E4E3D4-F38C-411D-8268-1A518A82301A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

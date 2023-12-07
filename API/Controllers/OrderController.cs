@@ -21,7 +21,7 @@ namespace ChefDigital.API.Controllers
             Entities.Entities.Order result = await _orderAppService.CreateAsync(order);
 
             if (result == null)
-                return BadRequest("Cliente não encontrado.");
+                return NotFound("Cliente não encontrado.");
 
             if (result.HasNotifications)
                 return BadRequest(result.Notitycoes);
@@ -43,7 +43,7 @@ namespace ChefDigital.API.Controllers
             return Ok("Pedido realizado com sucesso.");
         }
 
-        [HttpPut("cancel-order/{id}")]
+        [HttpPut("CancelOrder/{id}")]
         public async Task<IActionResult> CancelOrder(Guid id)
         {
             Entities.Entities.Order result = await _orderAppService.CancelOrderAsync(id);
@@ -55,7 +55,7 @@ namespace ChefDigital.API.Controllers
         }
 
 
-        [HttpPut("update-status-order/{id}")]
+        [HttpPut("UpdateStatusOrder/{id}")]
         public async Task<IActionResult> UpdateStatusOrder(Guid id)
         {
             Entities.Entities.Order result = await _orderAppService.UpdateStatusOrderAsync(id);
